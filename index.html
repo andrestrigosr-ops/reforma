@@ -144,6 +144,18 @@ footer.foot .legal a{color:#fff}
 @media(max-width:560px){.brand img{height:38px}.pills a{padding:7px 13px;font-size:13px}header.top .sub{font-size:16px}}
 main a{color:var(--acc);font-weight:600}
 main a:hover{color:var(--navy)}
+.salbox{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:4px 12px;margin:4px 0 8px}
+.salbox span{font-size:26px;font-weight:800;color:var(--ink3)}
+.salbox input{border:0;outline:0;font:inherit;font-size:30px;font-weight:800;color:var(--navy);width:100%;background:transparent;font-variant-numeric:tabular-nums}
+.salbox:focus-within{border-color:var(--acc)}
+.total{background:var(--navy);color:#fff;border-radius:12px;padding:12px 16px;margin:4px 0 6px}
+.total span{display:block;font-size:13px;color:#d8d6f0}
+.total strong{font-size:24px;color:var(--mint);font-variant-numeric:tabular-nums}
+tr.grp td{background:var(--accsoft);font-weight:700;color:var(--navy)}
+dl.glos{display:grid;grid-template-columns:1fr;gap:4px 18px;margin:8px 0 0;font-size:15px}
+@media(min-width:760px){dl.glos{grid-template-columns:220px 1fr}}
+dl.glos dt{font-weight:800;color:var(--navy)}
+dl.glos dd{margin:0 0 8px;color:var(--ink2)}
 </style>
 </head>
 <body>
@@ -158,22 +170,23 @@ main a:hover{color:var(--navy)}
     </div>
   </div>
   <h1>Ley de <span>Rescate Económico</span> (PL 477/26): qué decide y quién paga</h1>
-  <p class="sub">Proyecto de ley radicado por el Ministerio de Hacienda en la Cámara de Representantes el 29 de octubre de 2026 [1]. Esta página reúne el ajuste fiscal que estima el Gobierno, las decisiones del articulado y los cálculos propios sobre quién paga.</p>
+  <p class="sub">El Gobierno radicó este proyecto de ley en la Cámara de Representantes el 29 de octubre de 2026 [1]. Aquí se explica cuánta plata busca recoger, de dónde sale y cuánto le tocaría pagar a cada quien.</p>
 </div></header>
 <nav><div class="in" role="tablist">
   <button role="tab" data-t="ajuste" aria-selected="true">El ajuste</button>
   <button role="tab" data-t="decisiones" aria-selected="false">Decisiones</button>
-  <button role="tab" data-t="asalariados" aria-selected="false">Asalariados</button>
+  <button role="tab" data-t="asalariados" aria-selected="false">Su bolsillo</button>
   <button role="tab" data-t="iva" aria-selected="false">IVA y EfectIVA</button>
+  <button role="tab" data-t="licores" aria-selected="false">Licores y regiones</button>
   <button role="tab" data-t="empresas" aria-selected="false">Empresas y aportes</button>
-  <button role="tab" data-t="fuentes" aria-selected="false">Fuentes</button>
+  <button role="tab" data-t="fuentes" aria-selected="false">Glosario y fuentes</button>
 </div></nav>
 <main>
 
 <!-- ============ AJUSTE ============ -->
 <section class="tab on" id="ajuste">
-  <h2>De dónde sale el ajuste fiscal</h2>
-  <p class="lead">La Tabla 14 de la exposición de motivos estima el efecto de cada medida sobre el balance primario [1]. Las barras muestran el aporte de cada renglón en el año elegido; al hacer clic en una se ve su trayectoria y la decisión que la origina.</p>
+  <h2>De dónde sale la plata</h2>
+  <p class="lead">El Gobierno calcula que con esta ley y otras medidas sus cuentas mejoran en 4,29% del PIB en 2028, unos 91 billones de pesos [1]. El PIB es el valor de todo lo que produce el país en un año. Cada barra es una medida: hacia la derecha, plata que entra o gasto que se recorta; hacia la izquierda, plata que el Estado deja de recibir. Haga clic en una barra para ver de qué se trata.</p>
   <div class="kpis" id="kpis"></div>
   <div class="ctrl">
     <span class="lbl">Año</span><div class="seg" id="segAnio"></div>
@@ -182,128 +195,180 @@ main a:hover{color:var(--navy)}
   </div>
   <div class="row c32">
     <div class="card"><div id="chT14"></div>
-      <p class="note">Fuente: MHCP, Tabla 14 de la Estrategia de Consolidación Fiscal, PL 477/26, p. 207 del PDF [1]. Billones de pesos de 2026: cálculo propio con el PIB de 2025 del DANE (1.852,7 billones), el crecimiento nominal de 2026 (9,0%) y el real del MFMP 2026 (2,2% en 2027 y 2,9% desde 2028) [10]. La agrupación por naturaleza es propia. Por redondeo, la suma de los renglones puede diferir del total en 0,01 o 0,02 puntos.</p>
+      <p class="note">Fuente: Ministerio de Hacienda, Tabla 14 del proyecto [1]; billones de pesos de 2026 con el PIB del DANE y el MFMP 2026 [2][10].</p>
     </div>
     <div>
       <div class="card" id="detT14"></div>
-      <div class="card"><h3>Ajuste total por año</h3><div id="chTot"></div>
-        <p class="note">Las enajenaciones de activos (0,09% del PIB en 2028 y 0,08% en 2029) aparecen en la tabla por fuera del total [1].</p></div>
+      <div class="card"><h3>Ajuste total por año (% del PIB)</h3><div id="chTot"></div>
+        <p class="note">Fuente: Ministerio de Hacienda, Tabla 14 [1]. La venta de activos del Estado va por fuera del total.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============ DECISIONES ============ -->
 <section class="tab" id="decisiones">
-  <h2>Las decisiones del articulado</h2>
-  <p class="lead">Cada ficha resume qué dice la norma hoy y qué propone el proyecto, con el artículo y la página del PDF donde está [1]. El pie de cada ficha trae el efecto que le asigna la Tabla 14 en % del PIB, cuando la tabla lo detalla.</p>
-  <div class="ctrl"><input type="search" id="q" placeholder="Buscar: IVA, dependientes, cerveza, UVT…" aria-label="Buscar en las decisiones"></div>
+  <h2>Qué cambia, artículo por artículo</h2>
+  <p class="lead">Cada ficha compara lo que dice la ley hoy con lo que propone el proyecto, y dice en qué artículo y en qué página del documento está [1]. Use el buscador o los filtros por tema.</p>
+  <div class="ctrl"><input type="search" id="q" placeholder="Buscar: IVA, dependientes, cerveza, patrimonio…" aria-label="Buscar en las decisiones"></div>
   <div class="ctrl" id="temas"></div>
   <div class="fichas" id="fichas"></div>
 </section>
 
-<!-- ============ ASALARIADOS ============ -->
+<!-- ============ SU BOLSILLO ============ -->
 <section class="tab" id="asalariados">
-  <h2>Cuánto paga de más un asalariado</h2>
-  <p class="lead">El proyecto cambia la tabla de renta de las personas (art. 48), baja los topes de rentas exentas (arts. 47 y 49), elimina la deducción de 72 UVT por dependiente (art. 106) y sube la cotización a salud del trabajador desde 2027 (art. 21) [1]. El cálculo toma un asalariado con un solo empleo, doce salarios al año y sin otras deducciones [6].</p>
+  <h2>¿Cuánto más pagaría usted?</h2>
+  <p class="lead">Escriba su salario, cuántas personas dependen de usted y cuántas viven en su hogar. La calculadora suma lo que cambia con el proyecto: el impuesto de renta (arts. 47 a 50), la cotización a salud que se descuenta del salario (art. 21) y el IVA adicional que pagaría el hogar en sus compras desde 2028 (arts. 38 y 42 a 46) [1].</p>
   <div class="row c2">
     <div class="card">
-      <div class="ctrl"><span class="lbl">Dependientes</span><div class="seg" id="segDep"></div></div>
-      <label class="lbl" for="rng">Salario mensual</label>
-      <div class="big" id="cSal"></div>
-      <input type="range" id="rng" min="0" max="15" step="1" value="6" aria-label="Salario en salarios mínimos">
+      <label class="lbl" for="sal">Salario mensual</label>
+      <div class="salbox"><span>$</span><input id="sal" inputmode="numeric" autocomplete="off" aria-label="Salario mensual en pesos"></div>
+      <input type="range" id="rng" min="1750905" max="105054300" step="50000" aria-label="Salario mensual">
+      <div class="clic" id="cSm"></div>
+      <div class="ctrl" style="margin-top:12px"><span class="lbl">Dependientes</span><div class="seg" id="segDep"></div></div>
+      <div class="ctrl"><span class="lbl">Personas en el hogar</span><div class="seg" id="segPer"></div></div>
       <div class="calcgrid">
         <div><span>Renta hoy, al mes</span><strong id="cRh"></strong></div>
         <div><span>Renta con el proyecto</span><strong id="cRp"></strong></div>
-        <div><span>Más cotización a salud</span><strong id="cSa"></strong></div>
-        <div><span>Pago adicional al mes</span><strong id="cTo"></strong></div>
+        <div><span>Más salud, al mes</span><strong id="cSa"></strong></div>
+        <div><span>Más IVA, al mes</span><strong id="cIv"></strong></div>
       </div>
-      <p class="note">Salario mínimo de 2026 ($1.750.905) y UVT de 2026 ($52.374) [11]. La depuración incluye pensión, Fondo de Solidaridad Pensional y salud como ingreso no constitutivo, la renta exenta de 25% con su tope y el límite conjunto de 40%. Con dos dependientes se suma la deducción del art. 387 y, solo con las reglas actuales, 144 UVT por fuera del límite. Es ilustrativo del cambio de reglas, no una proyección para 2027 [6].</p>
+      <div class="total"><span>En total pagaría de más al mes</span><strong id="cTo"></strong></div>
+      <p class="clic" id="cMsg"></p>
+      <p class="note">Supuestos: un solo empleo, doce salarios al año, sin otras deducciones, y el hogar vive de ese salario; salario mínimo y UVT de 2026 [11]. Fuente: cálculos propios con el proyecto y el Estatuto Tributario [4][6].</p>
     </div>
     <div class="card"><h3>Pago adicional como % del salario</h3>
-      <div class="legend"><span><i style="background:var(--bar)"></i>Sin dependientes</span><span><i style="background:var(--bar2)"></i>Dos dependientes</span></div>
+      <div class="legend"><span><i style="background:var(--bar)"></i>Renta y salud</span><span><i style="background:var(--bar2)"></i>Renta, salud e IVA</span></div>
       <div id="chPN"></div>
-      <p class="note">Por encima de 25 salarios mínimos la cotización deja de crecer porque el ingreso base de cotización está limitado [6].</p>
+      <p class="note">Con los dependientes y las personas del hogar que eligió. La línea punteada marca su salario.</p>
     </div>
   </div>
   <div class="row c2">
-    <div class="card"><h3>Tabla de tarifas de renta de personas (art. 241 ET)</h3><div class="tw" id="tbTarifa"></div>
-      <p class="note">Fuente: Estatuto Tributario, art. 241 vigente; PL 477/26, art. 48, p. 265-266 del PDF [1]. La suma fija se aplica sobre la base que excede el límite inferior del rango.</p></div>
-    <div class="card"><h3>Cotización a salud del trabajador (art. 21)</h3><div class="tw" id="tbSalud"></div>
-      <p class="note">Fuente: PL 477/26, art. 21, p. 236-237 del PDF [1]. La cotización del empleador se mantiene en 8,5%. En los regímenes especiales y de excepción la del trabajador sube 1,5 puntos entre 2 y 3 salarios mínimos y 2,5 puntos por encima de 3.</p></div>
+    <div class="card"><h3>La tabla del impuesto de renta (art. 241)</h3><div class="tw" id="tbTarifa"></div>
+      <p class="note">UVT: unidad que fija la DIAN cada año; en 2026 vale $52.374. Fuente: Estatuto Tributario y art. 48 del proyecto [1][3].</p></div>
+    <div class="card"><h3>Cotización a salud que paga el trabajador (art. 21)</h3><div class="tw" id="tbSalud"></div>
+      <p class="note">La parte del empleador sigue en 8,5%. Fuente: art. 21 del proyecto [1].</p></div>
   </div>
-  <div class="card"><h3>Docentes y profesores: renta y salud con el proyecto</h3><div class="tw" id="tbEdu"></div>
-    <p class="note">Fuente: cálculos propios con DANE, GEIH de diciembre de 2025 y julio y agosto de 2026; PL 477/26, arts. 21, 47-49 y 106 [9]. Los profesores de universidades públicas pierden además la exención de gastos de representación (num. 9 del art. 206 ET, derogado por el art. 106).</p></div>
+  <div class="card"><h3>Rama judicial: impuesto de renta al mes</h3>
+    <div class="tw" id="tbRama"></div>
+    <p class="note">Los jueces pierden la exención del 25% de sus gastos de representación. Cálculo propio con sueldos y bonificaciones de 2026 (Decretos 302, 313 y 321) [12][13].</p></div>
+  <div class="card"><h3>Docentes y profesores</h3>
+    <p style="margin:0 0 10px;font-size:15px">Lo que pagaría de más cada mes un docente con el salario promedio de su grupo. En colegios y universidades privadas el aumento viene sobre todo de la salud; en las universidades públicas pesa más la renta, porque se elimina la exención de los gastos de representación de los profesores.</p>
+    <div class="tw" id="tbEdu"></div>
+    <p class="note">Fuente: cálculos propios con la GEIH del DANE (diciembre de 2025, julio y agosto de 2026) y el proyecto [9].</p></div>
 </section>
 
 <!-- ============ IVA ============ -->
 <section class="tab" id="iva">
-  <h2>IVA y EfectIVA</h2>
-  <p class="lead">Desde 2028 desaparece la tarifa de 5% y varios bienes y servicios hoy excluidos o exentos pasan a 19%; al mismo tiempo se crea EfectIVA, que devuelve el IVA pagado a personas pobres y vulnerables con base en la factura electrónica (arts. 38, 39 y 42 a 46) [1]. Los cálculos propios usan los agregados de la DIAN para el tamaño del recaudo y la ECV del DANE para repartirlo entre hogares [4].</p>
-  <div class="card"><h3>Hacienda frente a los cálculos propios (% del PIB)</h3><div id="chPuente"></div>
-    <p class="note">MHCP: Tabla 10 de la exposición de motivos, p. 102 del PDF, promedio 2028-2030 (reducción de beneficios tributarios 1,67% y EfectIVA −0,83%), y Tabla 14 para el efecto neto de 2028 (1,05%) [1]. La Tabla 10 suma 1,2% del PIB para todas las medidas de IVA, incluidos juegos de suerte y azar (0,21%), importaciones de bajo valor (0,08%), licencias de software (0,02%) y vehículos híbridos y eléctricos (0,01%); la Tabla 14 registra 1,05%. El documento no explica la diferencia entre ambas tablas. Cálculo propio: escenario central con el Formulario 300 de 2025 llevado a 2027; PIB nominal de 2027 de 2.136,5 billones, calculado con el PIB de 2025 del DANE y el crecimiento nominal del MFMP 2026 [2][10]; no incluye combustibles [4].</p></div>
+  <h2>IVA: qué sube y quién recibe la devolución</h2>
+  <p class="lead">Desde 2028 desaparece la tarifa de 5% y productos como frutas, verduras, café, harinas, internet y licores pasan a pagar 19%. Siguen sin IVA la carne, el pollo, los huevos, la leche, el arroz, la papa y el pan. Para compensar, EfectIVA devolverá el IVA a las personas pobres y vulnerables, pero solo el que quede registrado en factura electrónica con su cédula [1].</p>
+  <div class="kpis" id="kpisIva"></div>
+  <div class="card"><h3>Después de la devolución, la clase media paga más que los ricos</h3>
+    <p class="clic" style="margin:0 0 6px">Aumento del IVA como % del ingreso del hogar. Los hogares van ordenados de menor a mayor ingreso por persona: 1 es el 1% más pobre y 100 el 1% más rico.</p>
+    <div class="legend"><span><i style="background:var(--bar3)"></i>Sin devolución</span><span><i style="background:var(--bar)"></i>Con devolución (EfectIVA)</span></div>
+    <div id="chIva"></div>
+    <p class="note">Nota: puntos por percentil y línea de tendencia; no se muestran los percentiles 1 y 2, que reportan ingresos casi nulos. Fuente: cálculos propios con DIAN (F300 2025) y DANE (ECV) [4].</p></div>
   <div class="row c2">
-    <div class="card"><h3>Aumento del IVA por percentil de ingreso per cápita</h3>
-      <div class="ctrl"><div class="seg" id="segIvaV"></div></div>
-      <div class="legend"><span><i style="background:var(--bar3)"></i>Antes de EfectIVA</span><span><i style="background:var(--bar)"></i>Después de EfectIVA</span></div>
-      <div id="chIva"></div>
-      <p class="note">% del gasto amplio del hogar (compras de la ECV más arriendo y servicios públicos). Después de EfectIVA: aumento menos la devolución, más la compensación actual que desaparece. Supone traslado completo al precio y cobertura de la factura electrónica con cédula según el lugar de compra [4].</p></div>
-    <div class="card"><h3>De dónde sale el recaudo nuevo (billones de 2027)</h3><div id="chCat"></div>
-      <p class="note">Escenario central y rango bajo-alto. "Concentrados e insumos agro" es el IVA que se queda como costo en la cadena agropecuaria y llega al consumidor por el precio de la comida; no aparece en ninguna factura al consumidor [4].</p></div>
-  </div>
-  <div class="row c2">
-    <div class="card"><h3>Por qué pesa más en los deciles bajos y medios: la canasta (% del gasto amplio)</h3>
+    <div class="card"><h3>Qué productos explican el IVA nuevo (billones de pesos al año)</h3><div id="chCat"></div>
+      <p class="note">"Insumos agro" es el IVA que pagan los productores de comida y que llega al precio, sin aparecer en la factura del consumidor. Fuente: cálculos propios [4].</p></div>
+    <div class="card"><h3>La comida pesa más en el gasto de los hogares de menores ingresos</h3>
       <div class="legend"><span><i style="background:var(--bar2)"></i>Comida</span><span><i style="background:var(--bar)"></i>Gasto al que le sube la tarifa</span></div>
-      <div id="chCan"></div><p class="note">Fuente: cálculos propios con DANE, ECV 2025 y 2022 [4].</p></div>
-    <div class="card"><h3>IVA pagado con factura, por decil de gasto (%)</h3>
-      <div class="legend"><span><i style="background:var(--bar)"></i>Réplica propia</span><span><i style="background:var(--bar2)"></i>Núñez (2026)</span></div>
-      <div id="chFac"></div><p class="note">Proporción del IVA que el hogar paga en compras que generarían factura electrónica, la base sobre la que la DIAN calcula la devolución (art. 39, parágrafo 1). Núñez (2026), Tabla 2, pp. 9-10, con la ENPH 2016-2017 [8]; réplica propia con sus supuestos [4].</p></div>
+      <div id="chCan"></div><p class="note">% del gasto del hogar (compras, arriendo y servicios), por grupo de 10% de hogares. Fuente: cálculos propios con la ECV [4].</p></div>
   </div>
+  <div class="card"><h3>De cada 100 pesos de IVA que paga el hogar, cuántos quedan en factura electrónica</h3>
+    <div id="chFac"></div>
+    <p class="note">Solo ese IVA cuenta para la devolución (art. 39). En la tienda de barrio o la plaza casi nunca hay factura con cédula. Fuente: cálculos propios con la ECV [4].</p></div>
+</section>
+
+<!-- ============ LICORES ============ -->
+<section class="tab" id="licores">
+  <h2>Licores y cerveza: más impuesto, pero no para los departamentos</h2>
+  <p class="lead">El proyecto sube los impuestos a licores y cerveza, que hoy cobran los departamentos (arts. 27, 28 y 33 a 36). El artículo 37 dice que cada departamento se queda con lo que recaudó en 2026, ajustado por inflación, y que todo lo que se recaude por encima se gira a la ADRES, la entidad que paga la salud [1].</p>
+  <div class="kpis" id="kpisLic"></div>
+  <div class="row c2">
+    <div class="card"><h3>Lo que se recauda y a dónde va (billones de pesos de 2025)</h3>
+      <div class="legend"><span><i style="background:var(--bar)"></i>Se queda en los departamentos</span><span><i style="background:var(--bar2)"></i>Se gira a la ADRES</span></div>
+      <div id="chLic"></div>
+      <p class="note">Nota: 2027 con la estimación de Hacienda; luego, tarifas que suben con la inflación más 4 puntos. Fuente: CUIPO 2025 y tabla 8 del proyecto; cálculo propio [1][14].</p></div>
+    <div class="card"><h3>Cómo funciona el artículo 37: un ejemplo</h3>
+      <div class="tw"><table><tr><th>Mes de 2027</th><th>Recauda</th><th>Se queda</th><th>Gira a la ADRES</th></tr>
+        <tr><td>Enero</td><td>150</td><td>105</td><td>45</td></tr>
+        <tr><td>Febrero</td><td>95</td><td>95</td><td>0 (le faltan 10)</td></tr>
+        <tr><td>Marzo</td><td>130</td><td>105</td><td>15 (primero cubre los 10)</td></tr></table></div>
+      <p style="font-size:14.5px;margin:10px 0 0">Si un departamento recaudó 100 en un mes de 2026 y la inflación es de 5%, en 2027 su base para ese mes es 105. Lo que pase de 105 se gira; si no llega, el faltante se descuenta de los meses siguientes y la Nación no lo compensa [1].</p></div>
+  </div>
+  <div class="card"><h3>Cuánto dependen los departamentos de estas rentas</h3>
+    <div class="ctrl"><div class="seg" id="segLic"></div></div>
+    <div id="chDep"></div>
+    <p class="note">Ingresos de libre destinación: la plata que el departamento puede gastar en lo que decida. Fuente: CUIPO 2025, DNP-CIFFIT; cálculo propio [14].</p></div>
+  <div class="card"><h3>Tarifas hoy y con el proyecto (precios de 2027)</h3>
+    <div class="tw"><table><tr><th>Producto</th><th>Componente</th><th>Hoy</th><th>Proyecto</th></tr>
+      <tr><td>Licores</td><td>Por grado de alcohol, por litro</td><td>$512</td><td>$1.000</td></tr>
+      <tr><td>Licores</td><td>Sobre el precio</td><td>25%</td><td>35%</td></tr>
+      <tr><td>Vinos y aperitivos</td><td>Por grado de alcohol, por litro</td><td>$346</td><td>$1.000</td></tr>
+      <tr><td>Vinos y aperitivos</td><td>Sobre el precio</td><td>20%</td><td>35%</td></tr>
+      <tr><td>Licores, vinos y aperitivos</td><td>IVA</td><td>5%</td><td>19%</td></tr>
+      <tr><td>Cerveza</td><td>Por grado de alcohol, por litro</td><td>No aplica</td><td>$1.000</td></tr>
+      <tr><td>Cerveza</td><td>Sobre el precio</td><td>48% del precio al detallista</td><td>10% del precio al consumidor</td></tr></table></div>
+    <p class="note">Fuente: exposición de motivos, tabla 8, p. 72-73 del PDF [1]. El valor por grado sube con la inflación más 4 puntos desde 2028.</p></div>
 </section>
 
 <!-- ============ EMPRESAS ============ -->
 <section class="tab" id="empresas">
-  <h2>Empresas: rebaja de renta y fin de la exoneración de aportes</h2>
-  <p class="lead">La tarifa general de renta de las sociedades baja de 35% a 33% en 2027 y a 31% desde 2028 (art. 57). En sentido contrario, la exoneración de aportes a SENA, ICBF y salud, que hoy cubre a los trabajadores de menos de 10 salarios mínimos, queda completa solo hasta 2 (art. 20) [1].</p>
+  <h2>Empresas: baja el impuesto de renta y suben los aportes por nómina</h2>
+  <p class="lead">El impuesto de renta de las empresas baja de 35% a 33% en 2027 y a 31% desde 2028 (art. 57). Al mismo tiempo, las empresas vuelven a pagar aportes a SENA, ICBF y salud por los trabajadores que ganan más de 2 salarios mínimos (en parte entre 2 y 3); hoy no los pagan por quienes ganan menos de 10 (art. 20) [1].</p>
   <div class="kpis" id="kpisPJ"></div>
   <div class="row c2">
-    <div class="card"><h3>Quién recibe la rebaja de 4 puntos</h3>
+    <div class="card"><h3>Quién recibe la rebaja de renta</h3>
       <div class="legend"><span><i style="background:var(--bar3)"></i>% de las empresas</span><span><i style="background:var(--bar)"></i>% de la rebaja</span></div>
       <div id="chPJ"></div>
       <div class="tw" id="tbPJ"></div>
-      <p class="note">Sociedades declarantes por cuantil de ingresos brutos, año gravable 2024. Beneficio estimado como 4/35 del impuesto sobre la renta líquida gravable [5].</p></div>
+      <p class="note">Empresas ordenadas por ingresos, año gravable 2024; la rebaja se estima como 4/35 del impuesto. Fuente: DIAN; cálculo propio [5].</p></div>
     <div class="card"><h3>La rebaja por sector</h3>
       <div class="ctrl"><div class="seg" id="segSec"></div></div>
       <div id="chSec"></div>
-      <p class="note">Año gravable 2025. La rebaja total con esa base es de 8,39 billones (0,45% del PIB) [5].</p></div>
+      <p class="note">Año gravable 2025. Fuente: DIAN; cálculo propio [5].</p></div>
   </div>
   <div class="row c2">
-    <div class="card"><h3>Mayor costo anual por el art. 20 y el art. 21, por salario del trabajador</h3>
-      <div class="legend"><span><i style="background:var(--bar)"></i>Empleadores (art. 20)</span><span><i style="background:var(--bar2)"></i>Asalariados (art. 21)</span></div>
+    <div class="card"><h3>Mayor costo al año por los arts. 20 y 21, según el salario del trabajador</h3>
+      <div class="legend"><span><i style="background:var(--bar)"></i>Lo pagan las empresas (art. 20)</span><span><i style="background:var(--bar2)"></i>Lo pagan los trabajadores (art. 21)</span></div>
       <div id="chApo"></div>
-      <p class="note">Billones de pesos al año, por rango de salario en salarios mínimos. Lectura literal del art. 20: los negocios de personas naturales con 2 a 5 trabajadores quedan exonerados y el sector público paga 6% entre 2 y 3 salarios mínimos. No incluye independientes [7].</p></div>
-    <div class="card"><h3>Aumento del costo de aportes por tamaño de empresa</h3><div id="chTam"></div>
-      <div class="tw" id="tbSalComp"></div>
-      <p class="note">% del costo actual de aportes de los asalariados, por número de trabajadores de la empresa. Cálculos propios con DANE, GEIH y RELAB [7]. MHCP: Tabla 14 [1].</p></div>
+      <p class="note">Billones de pesos al año, por rango de salario en salarios mínimos. Fuente: cálculos propios con GEIH y PILA [7].</p></div>
+    <div class="card"><h3>Cuánto sube el costo de aportes, según el tamaño de la empresa</h3><div id="chTam"></div>
+      <p class="note">% del costo actual de aportes, por número de trabajadores. Fuente: cálculos propios con GEIH y RELAB [7].</p></div>
   </div>
 </section>
 
-<!-- ============ FUENTES ============ -->
+<!-- ============ GLOSARIO Y FUENTES ============ -->
 <section class="tab" id="fuentes">
-  <h2>Fuentes</h2>
+  <h2>Glosario</h2>
+  <dl class="glos">
+    <dt>PIB</dt><dd>El valor de todo lo que produce el país en un año. En 2028 serían unos 2.124 billones de pesos de 2026, así que 1% del PIB son unos 21 billones.</dd>
+    <dt>Billón</dt><dd>Un millón de millones de pesos.</dd>
+    <dt>UVT</dt><dd>Unidad de Valor Tributario. La DIAN la actualiza cada año para que los topes de los impuestos sigan la inflación; en 2026 vale $52.374.</dd>
+    <dt>Renta gravable</dt><dd>La parte del ingreso sobre la que se calcula el impuesto, después de restar los aportes a salud y pensión, las rentas exentas y las deducciones.</dd>
+    <dt>Percentil y decil</dt><dd>Los hogares se ordenan de menor a mayor ingreso por persona y se parten en 100 grupos iguales (percentiles) o en 10 (deciles).</dd>
+    <dt>EfectIVA</dt><dd>La devolución del IVA que crea el proyecto para personas pobres y vulnerables, calculada con la factura electrónica.</dd>
+    <dt>ADRES</dt><dd>La entidad nacional que administra la plata de la salud.</dd>
+    <dt>Ingresos de libre destinación</dt><dd>La plata que un departamento puede gastar en lo que decida, sin una destinación fijada por la ley.</dd>
+  </dl>
+  <h2 style="margin-top:22px">Fuentes</h2>
   <ol class="refs">
-    <li>Ministerio de Hacienda y Crédito Público (2026). Proyecto de Ley "Por la cual se expide la Ley de Rescate Económico…", con exposición de motivos, radicado el 29 de octubre de 2026. Tabla 14 en la p. 207 del PDF (folio 204); Tabla 10 en la p. 102; articulado en las pp. 219 a 339. Las páginas citadas son las del archivo PDF.</li>
+    <li>Ministerio de Hacienda y Crédito Público (2026). Proyecto de Ley "Por la cual se expide la Ley de Rescate Económico…", con exposición de motivos, radicado el 29 de octubre de 2026. Tabla 14 en la p. 207 del PDF; articulado en las pp. 219 a 339. Las páginas citadas son las del archivo PDF.</li>
     <li>Ministerio de Hacienda y Crédito Público (2026). Marco Fiscal de Mediano Plazo 2026.</li>
     <li>Estatuto Tributario vigente (arts. 114-1, 206, 240, 241, 336, 383, 424, 468-1, 477).</li>
     <li>Cálculos propios de IVA: DIAN, agregados del Formulario 300 de 2025; DANE, Encuesta de Calidad de Vida 2022 y 2025; MHCP, MFMP 2026.</li>
-    <li>Cálculos propios de renta de personas jurídicas: DIAN, estadísticas por cuantiles de ingresos brutos, años gravables 2024 y 2025.</li>
-    <li>Cálculos propios de renta de personas naturales: Estatuto Tributario y PL 477/26, arts. 21, 47, 48, 49 y 106; salario mínimo y UVT de 2026.</li>
+    <li>Cálculos propios de renta de empresas: DIAN, estadísticas por cuantiles de ingresos brutos, años gravables 2024 y 2025.</li>
+    <li>Cálculos propios de renta de personas: Estatuto Tributario y PL 477/26, arts. 21, 47, 48, 49 y 106.</li>
     <li>Cálculos propios de aportes y cotizaciones: DANE, GEIH (microdatos) y RELAB (PILA).</li>
     <li>Núñez, J. (2026). Bienestar social y Ley de Rescate Económico.</li>
     <li>Cálculos propios de educación: DANE, GEIH de diciembre de 2025 y julio y agosto de 2026.</li>
     <li>DANE, PIB de 2025 provisional (1.852,67 billones de pesos).</li>
-    <li>DIAN, valor de la UVT para 2026; Gobierno nacional, decreto de salario mínimo para 2026.</li>
+    <li>DIAN, valor de la UVT para 2026; Gobierno nacional, decreto de salario mínimo para 2026 ($1.750.905).</li>
+    <li>Función Pública, Decretos 297, 302, 313 y 321 de 2026 (régimen salarial y bonificaciones de la Rama Judicial).</li>
+    <li>Más Colombia (2026). Tabla salarial 2026 de la Rama Judicial (sueldo básico por cargo, escala de 2025 reajustada 7%).</li>
+    <li>Cálculos propios de licores y cerveza: DNP, CIFFIT, y CUIPO, ejecución de ingresos de 2024 y 2025; exposición de motivos del PL 477/26, tabla 8.</li>
   </ol>
-  <p class="note">Las cifras de Hacienda son las del documento oficial. Las marcadas como cálculo propio son estimaciones con los supuestos que se indican en cada gráfico; muestran la incidencia legal (quién entrega el dinero), no la incidencia económica final.</p>
+  <p class="note">Las cifras de Hacienda vienen del documento oficial; las demás son estimaciones propias con los supuestos de cada gráfico y muestran quién entrega el dinero, no quién termina soportándolo.</p>
 </section>
 </main>
 <footer class="foot"><div class="in">
@@ -315,7 +380,7 @@ main a:hover{color:var(--navy)}
 <div class="tip" id="tip"></div>
 
 <script>
-const D = {"iva_percentil": [[1, 1.938, 0.26], [2, 2.45, 0.748], [3, 2.631, 1.273], [4, 2.658, 1.319], [5, 2.831, 1.53], [6, 3.127, 1.684], [7, 2.823, 1.669], [8, 2.781, 1.527], [9, 3.036, 1.58], [10, 2.85, 1.484], [11, 2.667, 1.508], [12, 2.694, 1.573], [13, 2.933, 1.692], [14, 2.805, 1.691], [15, 2.762, 1.609], [16, 2.555, 1.301], [17, 2.811, 1.429], [18, 2.617, 1.469], [19, 2.615, 1.347], [20, 2.807, 1.557], [21, 2.643, 1.181], [22, 2.642, 1.271], [23, 2.608, 1.17], [24, 2.887, 1.462], [25, 2.382, 0.954], [26, 2.572, 1.026], [27, 2.638, 1.107], [28, 2.579, 1.136], [29, 2.467, 1.112], [30, 2.517, 0.961], [31, 2.55, 0.728], [32, 2.502, 0.659], [33, 2.361, 0.585], [34, 2.422, 0.609], [35, 2.661, 0.751], [36, 3.129, 0.918], [37, 2.572, 0.727], [38, 2.571, 0.593], [39, 2.626, 0.979], [40, 2.419, 1.468], [41, 2.606, 1.61], [42, 2.419, 1.464], [43, 2.515, 1.525], [44, 2.446, 1.457], [45, 2.826, 1.683], [46, 2.393, 1.465], [47, 2.608, 1.719], [48, 2.355, 1.573], [49, 2.344, 1.506], [50, 2.541, 1.725], [51, 2.409, 1.562], [52, 2.412, 1.553], [53, 2.588, 1.742], [54, 3.056, 2.189], [55, 2.255, 1.594], [56, 2.355, 1.725], [57, 2.536, 1.928], [58, 2.365, 1.753], [59, 2.173, 1.551], [60, 2.367, 2.056], [61, 2.43, 2.438], [62, 2.305, 2.33], [63, 2.314, 2.314], [64, 2.545, 2.562], [65, 2.304, 2.311], [66, 2.282, 2.287], [67, 2.794, 2.801], [68, 2.453, 2.455], [69, 2.452, 2.459], [70, 2.476, 2.486], [71, 2.362, 2.369], [72, 2.601, 2.606], [73, 2.32, 2.323], [74, 2.547, 2.549], [75, 2.283, 2.292], [76, 2.192, 2.197], [77, 2.218, 2.219], [78, 2.557, 2.564], [79, 2.334, 2.339], [80, 2.494, 2.495], [81, 2.192, 2.192], [82, 2.469, 2.47], [83, 2.315, 2.316], [84, 2.317, 2.318], [85, 2.182, 2.185], [86, 2.435, 2.444], [87, 2.909, 2.909], [88, 2.687, 2.69], [89, 2.938, 2.939], [90, 2.403, 2.405], [91, 2.258, 2.261], [92, 2.452, 2.453], [93, 2.497, 2.504], [94, 2.388, 2.388], [95, 2.659, 2.661], [96, 2.118, 2.119], [97, 2.278, 2.279], [98, 2.365, 2.365], [99, 2.113, 2.113], [100, 1.678, 1.678]], "iva_decil_chk": {"1": [2.55, 1.07], "2": [2.72, 1.51], "3": [2.59, 1.13], "4": [2.58, 0.81], "5": [2.51, 1.58], "6": [2.45, 1.77], "7": [2.44, 2.45], "8": [2.39, 2.4], "9": [2.49, 2.49], "10": [2.21, 2.21]}, "iva_categorias": [["Alimentos", 5.01, 5.79, 6.58], ["Concentrados e insumos agro (vía precios)", 3.49, 3.96, 4.42], ["Vehículos y equipos", 3.18, 3.22, 3.26], ["Licores", 0.97, 0.97, 0.97], ["Internet y telefonía", 0.82, 0.82, 0.82], ["Boletas y entretenimiento", 0.79, 0.79, 0.79], ["Otros", 0.51, 0.51, 0.51], ["Seguros de salud y prepagada", -0.64, -0.16, 0.32]], "iva_puente": [["Recaudo adicional bruto (DIAN)", 15.91, 0.745], ["Costo de EfectIVA", -3.0, -0.14], ["Devolución actual que desaparece", 0.4, 0.019], ["Efecto fiscal neto", 13.32, 0.623]], "iva_canasta": [[1, 36.9, 9.9], [2, 44.3, 11.6], [3, 42.2, 11.2], [4, 40.1, 10.7], [5, 37.5, 10.1], [6, 34.5, 9.6], [7, 33.8, 9.6], [8, 30.8, 9.0], [9, 28.1, 8.4], [10, 17.8, 6.0]], "iva_nunez": [[1, 0.13, 0.04, 28.6, 29.9], [2, 0.3, 0.21, 30.0, 29.6], [3, 0.41, 0.22, 30.7, 31.1], [4, 2.01, 0.95, 31.7, 34.4], [5, 2.29, 1.13, 34.1, 35.2], [6, 2.78, 1.3, 36.4, 38.6], [7, 4.03, 1.98, 38.4, 40.3], [8, 4.15, 1.96, 41.6, 44.4], [9, 3.75, 1.87, 43.9, 49.2], [10, 2.74, 1.67, 48.6, 51.3]], "pn_casos": [[0, 1.0, 1750905, 0, 0, 0, 0, 0.0], [0, 2.0, 3501810, 0, 0, 0, 0, 0.0], [0, 2.5, 4377262, 0, 0, 65659, 65659, 1.5], [0, 3.0, 5252715, 0, 38056, 78791, 116846, 2.22], [0, 3.5, 6128168, 0, 91535, 91923, 183457, 2.99], [0, 4.0, 7003620, 4306, 140287, 105054, 241034, 3.44], [0, 5.0, 8754525, 231355, 350433, 175090, 294169, 3.36], [0, 6.0, 10505430, 458404, 565007, 262636, 369239, 3.51], [0, 8.0, 14007240, 1105564, 1273905, 350181, 518522, 3.7], [0, 10.0, 17509050, 1924659, 2141653, 437726, 654721, 3.74], [0, 15.0, 26263575, 4283184, 4397649, 787907, 902372, 3.44], [0, 20.0, 35018100, 6796608, 6766623, 1225634, 1195649, 3.41], [0, 25.0, 43772625, 9396702, 9193377, 1750905, 1547580, 3.54], [0, 40.0, 70036200, 18550661, 19259012, 1750905, 2459256, 3.51], [0, 60.0, 105054300, 31095686, 32916071, 1750905, 3571290, 3.4], [0, 100.0, 175090500, 57647959, 60230189, 1750905, 4333135, 2.47], [2, 1.0, 1750905, 0, 0, 0, 0, 0.0], [2, 2.0, 3501810, 0, 0, 0, 0, 0.0], [2, 2.5, 4377262, 0, 0, 65659, 65659, 1.5], [2, 3.0, 5252715, 0, 2600, 78791, 81391, 1.55], [2, 3.5, 6128168, 0, 50170, 91923, 142092, 2.32], [2, 4.0, 7003620, 0, 93012, 105054, 198066, 2.83], [2, 5.0, 8754525, 0, 225681, 175090, 400772, 4.58], [2, 6.0, 10505430, 189289, 415304, 262636, 488651, 4.65], [2, 8.0, 14007240, 635435, 881902, 350181, 596648, 4.26], [2, 10.0, 17509050, 1279411, 1672382, 437726, 830698, 4.74], [2, 15.0, 26263575, 3522713, 3844579, 787907, 1109773, 4.23], [2, 20.0, 35018100, 6036138, 6213554, 1225634, 1403050, 4.01], [2, 25.0, 43772625, 8636231, 8640308, 1750905, 1754981, 4.01], [2, 40.0, 70036200, 17744101, 18605384, 1750905, 2612188, 3.73], [2, 60.0, 105054300, 30243037, 32262443, 1750905, 3770311, 3.59], [2, 100.0, 175090500, 56749221, 59576561, 1750905, 4578245, 2.61]], "pj_grupos": [["Cuantiles 1 a 500 (mitad inferior)", 321665, 50.0, 0.3, 0.01, 0.0429, 0.2], ["Cuantiles 501 a 900", 257332, 40.0, 7.9, 0.61, 2.3889, 7.6], ["Cuantiles 901 a 990", 57899, 9.0, 22.0, 1.77, 30.6313, 21.8], ["Cuantiles 991 a 999", 5790, 0.9, 26.2, 2.18, 376.6198, 26.8], ["Cuantil 1000 (0,1% más grande)", 644, 0.1, 43.6, 3.56, 5527.2235, 43.7]], "pj_sectores": [["Comercio, transporte, alojamiento y comidas", 171521, 2.52, 30.1, 22.0, 25.5], ["Manufactura", 82259, 1.45, 17.3, 15.1, 12.2], ["Financiero, seguros e inmobiliario", 66082, 1.04, 12.4, 8.1, 9.8], ["Electricidad, gas y agua", 13688, 0.8, 9.6, 2.9, 2.0], ["Minería e hidrocarburos", 6543, 0.62, 7.4, 4.0, 1.0], ["Servicios profesionales y de apoyo", 79628, 0.51, 6.1, 16.9, 11.8], ["Construcción", 76628, 0.48, 5.7, 5.2, 11.4], ["Administración pública, educación y salud", 33320, 0.37, 4.5, 13.0, 5.0], ["Información y comunicaciones", 28834, 0.29, 3.4, 6.7, 4.3], ["Agropecuario", 40123, 0.23, 2.7, 3.8, 6.0], ["Otros servicios", 73466, 0.07, 0.9, 2.4, 10.9]], "pj_totales": [["2024", 643330, 8.14, 0.477], ["2025", 672092, 8.39, 0.453]], "salud_rango": [["Hasta 1", 2582341, 0.0, -0.14, 0, 0], ["1 a 2", 3749993, 0.0, -0.11, 0, 0], ["2 a 3", 1148616, 0.9, 1.72, 65076, 259262], ["3 a 4", 550724, 0.69, 3.33, 103897, 834084], ["4 a 5", 298408, 0.59, 2.42, 163840, 1081761], ["5 a 10", 387127, 1.34, 5.62, 287843, 1590545], ["10 a 15", 82028, 0.52, -0.02, 528906, 0], ["15 a 20", 19826, 0.16, 0.0, 654703, 0], ["20 a 25", 2320, 0.03, 0.0, 968820, 0], ["Más de 25", 8444, 0.17, 0.0, 1695413, 0]], "salud_tamano": [["2 a 5", 441366, 5.2, -0.1], ["6 a 10", 531844, 15.1, 2.98], ["11 a 50", 1652173, 15.2, 2.58], ["51 a 200", 1206199, 22.5, 2.83], ["201 o más", 3786610, 28.6, 3.8]], "salud_comp": [["Empleadores (art. 20)", 12.81, 0.638, 0.56, 0.41], ["Trabajadores e independientes (art. 21)", 4.73, 0.235, 0.27, 0.23], ["Arts. 20 y 21", 17.55, 0.873, 0.8300000000000001, 0.64]], "edu": [["Docentes oficiales, preescolar a media", 282781, 5040113, 35.4, 69.9, 161172, 2.65], ["Profesores, universidades oficiales", 37292, 7162563, 44.3, 86.9, 447422, 5.16], ["Profesores, universidades privadas", 47603, 5811321, 30.7, 65.0, 173689, 2.76]]};
+const D = {"iva_percentil": [[1, 1.938, 0.26], [2, 2.45, 0.748], [3, 2.631, 1.273], [4, 2.658, 1.319], [5, 2.831, 1.53], [6, 3.127, 1.684], [7, 2.823, 1.669], [8, 2.781, 1.527], [9, 3.036, 1.58], [10, 2.85, 1.484], [11, 2.667, 1.508], [12, 2.694, 1.573], [13, 2.933, 1.692], [14, 2.805, 1.691], [15, 2.762, 1.609], [16, 2.555, 1.301], [17, 2.811, 1.429], [18, 2.617, 1.469], [19, 2.615, 1.347], [20, 2.807, 1.557], [21, 2.643, 1.181], [22, 2.642, 1.271], [23, 2.608, 1.17], [24, 2.887, 1.462], [25, 2.382, 0.954], [26, 2.572, 1.026], [27, 2.638, 1.107], [28, 2.579, 1.136], [29, 2.467, 1.112], [30, 2.517, 0.961], [31, 2.55, 0.728], [32, 2.502, 0.659], [33, 2.361, 0.585], [34, 2.422, 0.609], [35, 2.661, 0.751], [36, 3.129, 0.918], [37, 2.572, 0.727], [38, 2.571, 0.593], [39, 2.626, 0.979], [40, 2.419, 1.468], [41, 2.606, 1.61], [42, 2.419, 1.464], [43, 2.515, 1.525], [44, 2.446, 1.457], [45, 2.826, 1.683], [46, 2.393, 1.465], [47, 2.608, 1.719], [48, 2.355, 1.573], [49, 2.344, 1.506], [50, 2.541, 1.725], [51, 2.409, 1.562], [52, 2.412, 1.553], [53, 2.588, 1.742], [54, 3.056, 2.189], [55, 2.255, 1.594], [56, 2.355, 1.725], [57, 2.536, 1.928], [58, 2.365, 1.753], [59, 2.173, 1.551], [60, 2.367, 2.056], [61, 2.43, 2.438], [62, 2.305, 2.33], [63, 2.314, 2.314], [64, 2.545, 2.562], [65, 2.304, 2.311], [66, 2.282, 2.287], [67, 2.794, 2.801], [68, 2.453, 2.455], [69, 2.452, 2.459], [70, 2.476, 2.486], [71, 2.362, 2.369], [72, 2.601, 2.606], [73, 2.32, 2.323], [74, 2.547, 2.549], [75, 2.283, 2.292], [76, 2.192, 2.197], [77, 2.218, 2.219], [78, 2.557, 2.564], [79, 2.334, 2.339], [80, 2.494, 2.495], [81, 2.192, 2.192], [82, 2.469, 2.47], [83, 2.315, 2.316], [84, 2.317, 2.318], [85, 2.182, 2.185], [86, 2.435, 2.444], [87, 2.909, 2.909], [88, 2.687, 2.69], [89, 2.938, 2.939], [90, 2.403, 2.405], [91, 2.258, 2.261], [92, 2.452, 2.453], [93, 2.497, 2.504], [94, 2.388, 2.388], [95, 2.659, 2.661], [96, 2.118, 2.119], [97, 2.278, 2.279], [98, 2.365, 2.365], [99, 2.113, 2.113], [100, 1.678, 1.678]], "iva_decil_chk": {"1": [2.55, 1.07], "2": [2.72, 1.51], "3": [2.59, 1.13], "4": [2.58, 0.81], "5": [2.51, 1.58], "6": [2.45, 1.77], "7": [2.44, 2.45], "8": [2.39, 2.4], "9": [2.49, 2.49], "10": [2.21, 2.21]}, "iva_categorias": [["Alimentos", 5.01, 5.79, 6.58], ["Concentrados e insumos agro (vía precios)", 3.49, 3.96, 4.42], ["Vehículos y equipos", 3.18, 3.22, 3.26], ["Licores", 0.97, 0.97, 0.97], ["Internet y telefonía", 0.82, 0.82, 0.82], ["Boletas y entretenimiento", 0.79, 0.79, 0.79], ["Otros", 0.51, 0.51, 0.51], ["Seguros de salud y prepagada", -0.64, -0.16, 0.32]], "iva_puente": [["Recaudo adicional bruto (DIAN)", 15.91, 0.745], ["Costo de EfectIVA", -3.0, -0.14], ["Devolución actual que desaparece", 0.4, 0.019], ["Efecto fiscal neto", 13.32, 0.623]], "iva_canasta": [[1, 36.9, 9.9], [2, 44.3, 11.6], [3, 42.2, 11.2], [4, 40.1, 10.7], [5, 37.5, 10.1], [6, 34.5, 9.6], [7, 33.8, 9.6], [8, 30.8, 9.0], [9, 28.1, 8.4], [10, 17.8, 6.0]], "iva_nunez": [[1, 0.13, 0.04, 28.6, 29.9], [2, 0.3, 0.21, 30.0, 29.6], [3, 0.41, 0.22, 30.7, 31.1], [4, 2.01, 0.95, 31.7, 34.4], [5, 2.29, 1.13, 34.1, 35.2], [6, 2.78, 1.3, 36.4, 38.6], [7, 4.03, 1.98, 38.4, 40.3], [8, 4.15, 1.96, 41.6, 44.4], [9, 3.75, 1.87, 43.9, 49.2], [10, 2.74, 1.67, 48.6, 51.3]], "pn_casos": [[0, 1.0, 1750905, 0, 0, 0, 0, 0.0], [0, 2.0, 3501810, 0, 0, 0, 0, 0.0], [0, 2.5, 4377262, 0, 0, 65659, 65659, 1.5], [0, 3.0, 5252715, 0, 38056, 78791, 116846, 2.22], [0, 3.5, 6128168, 0, 91535, 91923, 183457, 2.99], [0, 4.0, 7003620, 4306, 140287, 105054, 241034, 3.44], [0, 5.0, 8754525, 231355, 350433, 175090, 294169, 3.36], [0, 6.0, 10505430, 458404, 565007, 262636, 369239, 3.51], [0, 8.0, 14007240, 1105564, 1273905, 350181, 518522, 3.7], [0, 10.0, 17509050, 1924659, 2141653, 437726, 654721, 3.74], [0, 15.0, 26263575, 4283184, 4397649, 787907, 902372, 3.44], [0, 20.0, 35018100, 6796608, 6766623, 1225634, 1195649, 3.41], [0, 25.0, 43772625, 9396702, 9193377, 1750905, 1547580, 3.54], [0, 40.0, 70036200, 18550661, 19259012, 1750905, 2459256, 3.51], [0, 60.0, 105054300, 31095686, 32916071, 1750905, 3571290, 3.4], [0, 100.0, 175090500, 57647959, 60230189, 1750905, 4333135, 2.47], [2, 1.0, 1750905, 0, 0, 0, 0, 0.0], [2, 2.0, 3501810, 0, 0, 0, 0, 0.0], [2, 2.5, 4377262, 0, 0, 65659, 65659, 1.5], [2, 3.0, 5252715, 0, 2600, 78791, 81391, 1.55], [2, 3.5, 6128168, 0, 50170, 91923, 142092, 2.32], [2, 4.0, 7003620, 0, 93012, 105054, 198066, 2.83], [2, 5.0, 8754525, 0, 225681, 175090, 400772, 4.58], [2, 6.0, 10505430, 189289, 415304, 262636, 488651, 4.65], [2, 8.0, 14007240, 635435, 881902, 350181, 596648, 4.26], [2, 10.0, 17509050, 1279411, 1672382, 437726, 830698, 4.74], [2, 15.0, 26263575, 3522713, 3844579, 787907, 1109773, 4.23], [2, 20.0, 35018100, 6036138, 6213554, 1225634, 1403050, 4.01], [2, 25.0, 43772625, 8636231, 8640308, 1750905, 1754981, 4.01], [2, 40.0, 70036200, 17744101, 18605384, 1750905, 2612188, 3.73], [2, 60.0, 105054300, 30243037, 32262443, 1750905, 3770311, 3.59], [2, 100.0, 175090500, 56749221, 59576561, 1750905, 4578245, 2.61]], "pj_grupos": [["Cuantiles 1 a 500 (mitad inferior)", 321665, 50.0, 0.3, 0.01, 0.0429, 0.2], ["Cuantiles 501 a 900", 257332, 40.0, 7.9, 0.61, 2.3889, 7.6], ["Cuantiles 901 a 990", 57899, 9.0, 22.0, 1.77, 30.6313, 21.8], ["Cuantiles 991 a 999", 5790, 0.9, 26.2, 2.18, 376.6198, 26.8], ["Cuantil 1000 (0,1% más grande)", 644, 0.1, 43.6, 3.56, 5527.2235, 43.7]], "pj_sectores": [["Comercio, transporte, alojamiento y comidas", 171521, 2.52, 30.1, 22.0, 25.5], ["Manufactura", 82259, 1.45, 17.3, 15.1, 12.2], ["Financiero, seguros e inmobiliario", 66082, 1.04, 12.4, 8.1, 9.8], ["Electricidad, gas y agua", 13688, 0.8, 9.6, 2.9, 2.0], ["Minería e hidrocarburos", 6543, 0.62, 7.4, 4.0, 1.0], ["Servicios profesionales y de apoyo", 79628, 0.51, 6.1, 16.9, 11.8], ["Construcción", 76628, 0.48, 5.7, 5.2, 11.4], ["Administración pública, educación y salud", 33320, 0.37, 4.5, 13.0, 5.0], ["Información y comunicaciones", 28834, 0.29, 3.4, 6.7, 4.3], ["Agropecuario", 40123, 0.23, 2.7, 3.8, 6.0], ["Otros servicios", 73466, 0.07, 0.9, 2.4, 10.9]], "pj_totales": [["2024", 643330, 8.14, 0.477], ["2025", 672092, 8.39, 0.453]], "salud_rango": [["Hasta 1", 2582341, 0.0, -0.14, 0, 0], ["1 a 2", 3749993, 0.0, -0.11, 0, 0], ["2 a 3", 1148616, 0.9, 1.72, 65076, 259262], ["3 a 4", 550724, 0.69, 3.33, 103897, 834084], ["4 a 5", 298408, 0.59, 2.42, 163840, 1081761], ["5 a 10", 387127, 1.34, 5.62, 287843, 1590545], ["10 a 15", 82028, 0.52, -0.02, 528906, 0], ["15 a 20", 19826, 0.16, 0.0, 654703, 0], ["20 a 25", 2320, 0.03, 0.0, 968820, 0], ["Más de 25", 8444, 0.17, 0.0, 1695413, 0]], "salud_tamano": [["2 a 5", 441366, 5.2, -0.1], ["6 a 10", 531844, 15.1, 2.98], ["11 a 50", 1652173, 15.2, 2.58], ["51 a 200", 1206199, 22.5, 2.83], ["201 o más", 3786610, 28.6, 3.8]], "salud_comp": [["Empleadores (art. 20)", 12.81, 0.638, 0.56, 0.41], ["Trabajadores e independientes (art. 21)", 4.73, 0.235, 0.27, 0.23], ["Arts. 20 y 21", 17.55, 0.873, 0.8300000000000001, 0.64]], "edu": [["Docentes oficiales, preescolar a media", 282781, 5040113, 35.4, 69.9, 161172, 2.65, 65287, 95885], ["Profesores, universidades oficiales", 37292, 7162563, 44.3, 86.9, 447422, 5.16, 294673, 152749], ["Profesores, universidades privadas", 47603, 5811321, 30.7, 65.0, 173689, 2.76, 63867, 109822]], "iva_ing": [[1, null, null, 0], [2, 39.296, 11.995, 36557], [3, 10.849, 5.251, 93543], [4, 7.229, 3.587, 132749], [5, 6.132, 3.314, 163260], [6, 6.187, 3.333, 185879], [7, 4.538, 2.682, 204963], [8, 5.06, 2.777, 224232], [9, 4.644, 2.417, 238636], [10, 4.097, 2.133, 255784], [11, 3.329, 1.882, 271751], [12, 3.974, 2.32, 288292], [13, 3.919, 2.261, 303186], [14, 3.357, 2.023, 316600], [15, 3.103, 1.808, 331742], [16, 3.477, 1.771, 345127], [17, 3.09, 1.57, 358637], [18, 2.813, 1.579, 372533], [19, 2.886, 1.486, 385497], [20, 2.995, 1.662, 398617], [21, 2.887, 1.29, 410699], [22, 2.814, 1.354, 424344], [23, 2.568, 1.153, 436187], [24, 2.817, 1.427, 450206], [25, 2.91, 1.165, 459764], [26, 2.611, 1.042, 474718], [27, 2.593, 1.088, 490120], [28, 2.445, 1.077, 503745], [29, 2.44, 1.099, 516580], [30, 2.366, 0.903, 530695], [31, 2.34, 0.669, 545159], [32, 2.313, 0.609, 561682], [33, 2.942, 0.729, 574164], [34, 2.155, 0.542, 587126], [35, 2.577, 0.727, 601313], [36, 3.199, 0.939, 614887], [37, 2.269, 0.641, 629893], [38, 2.265, 0.523, 646493], [39, 2.257, 0.841, 663590], [40, 2.215, 1.344, 681801], [41, 2.525, 1.56, 693513], [42, 1.967, 1.191, 709564], [43, 1.99, 1.206, 723806], [44, 2.185, 1.302, 741617], [45, 2.27, 1.353, 757923], [46, 1.764, 1.08, 773892], [47, 2.318, 1.529, 795239], [48, 1.965, 1.313, 813282], [49, 1.804, 1.16, 833587], [50, 2.153, 1.461, 853671], [51, 1.822, 1.181, 872187], [52, 1.743, 1.122, 895001], [53, 2.321, 1.562, 914175], [54, 2.352, 1.685, 930692], [55, 1.739, 1.229, 952183], [56, 2.012, 1.474, 971247], [57, 1.922, 1.462, 994648], [58, 1.725, 1.278, 1018370], [59, 1.62, 1.156, 1037506], [60, 1.665, 1.446, 1065189], [61, 1.937, 1.943, 1091327], [62, 1.62, 1.637, 1121010], [63, 2.089, 2.09, 1145716], [64, 1.899, 1.912, 1170684], [65, 1.582, 1.587, 1204879], [66, 1.524, 1.528, 1236011], [67, 2.086, 2.091, 1267336], [68, 1.713, 1.715, 1300491], [69, 1.729, 1.734, 1332494], [70, 1.772, 1.779, 1365921], [71, 1.604, 1.609, 1401828], [72, 1.822, 1.825, 1439584], [73, 1.668, 1.67, 1480499], [74, 1.726, 1.727, 1526195], [75, 1.415, 1.42, 1571062], [76, 1.625, 1.629, 1618853], [77, 1.484, 1.484, 1669495], [78, 1.976, 1.982, 1725410], [79, 1.532, 1.535, 1786607], [80, 1.569, 1.57, 1849099], [81, 1.557, 1.558, 1916590], [82, 1.784, 1.784, 1994090], [83, 1.645, 1.646, 2066042], [84, 1.497, 1.498, 2157297], [85, 1.55, 1.551, 2247397], [86, 1.632, 1.637, 2344999], [87, 1.833, 1.833, 2453966], [88, 1.671, 1.673, 2589406], [89, 1.755, 1.756, 2746419], [90, 1.552, 1.554, 2899728], [91, 1.606, 1.608, 3100010], [92, 1.688, 1.688, 3339504], [93, 1.731, 1.735, 3631989], [94, 1.59, 1.59, 3980812], [95, 1.739, 1.74, 4452859], [96, 1.252, 1.252, 5136355], [97, 1.327, 1.327, 6032183], [98, 1.266, 1.266, 7268194], [99, 0.929, 0.929, 9614807], [100, 0.556, 0.556, 18136928]], "rama": [["Jueces", "Juez del circuito", 18875365, 33564240, 43592809], ["Jueces", "Juez municipal", 16235795, 24482195, 35016952], ["Tribunales", "Secretario de tribunal", 13723564, 15498185, 18285916], ["Juzgados municipales", "Secretario de juzgado municipal", 8846045, 4179237, 5529410], ["Juzgados municipales", "Escribiente de juzgado municipal", 4932604, 0, 554961]], "lic_tray": [[2026, 8.71, 0.0, 100.0], [2027, 8.71, 9.18, 48.7], [2028, 8.71, 9.54, 47.7], [2029, 8.71, 9.91, 46.8], [2030, 8.71, 10.28, 45.8]], "lic_esc": [["Licores", 5.18, 7.26, 2.08], ["Cerveza", 3.52, 10.62, 7.1], ["Total", 8.71, 17.89, 9.18]], "lic_deptos": [["Chocó", 80.5, 140.7], ["La Guajira", 76.3, 142.1], ["Sucre", 68.7, 143.0], ["Magdalena", 65.7, 146.0], ["Bolívar", 64.4, 145.2], ["Córdoba", 63.2, 131.0], ["Boyacá", 62.9, 157.2], ["Cesar", 61.5, 116.6], ["Cauca", 56.5, 108.7], ["Nariño", 51.8, 103.9], ["Tolima", 51.8, 124.5], ["Huila", 48.7, 96.6], ["Caquetá", 48.4, 105.8], ["Santander", 45.5, 113.7], ["Meta", 44.5, 93.6], ["Atlántico", 43.1, 107.4], ["Casanare", 41.5, 101.3], ["Cundinamarca", 38.9, 75.3], ["Norte de Santander", 38.5, 76.1], ["Valle del Cauca", 37.5, 75.1], ["Quindío", 37.4, 76.3], ["Putumayo", 35.5, 74.7], ["Caldas", 34.8, 66.6], ["Antioquia", 33.1, 63.6], ["Guaviare", 30.3, 70.1], ["Risaralda", 28.0, 64.3], ["Arauca", 26.2, 52.3], ["Vichada", 18.8, 45.6], ["Guainía", 15.7, 34.6], ["Amazonas", 10.4, 22.0], ["Vaupés", 10.2, 24.9], ["San Andrés", 0.7, 2.3]]};
 
 /* ---------- utilidades ---------- */
 const $ = s => document.querySelector(s);
@@ -332,7 +397,11 @@ function seg(id, opts, val, cb) {
   const box = $(id); box.innerHTML = "";
   opts.forEach(([v, l]) => { const b = document.createElement("button"); b.textContent = l; b.setAttribute("aria-pressed", v === val); b.onclick = () => { [...box.children].forEach(c => c.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); cb(v); }; box.appendChild(b); });
 }
-function svgBox(id, w, h) { const box = $(id); box.innerHTML = ""; return el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img"}, box); }
+function svgBox(id, w, h) {
+  const box = $(id); box.innerHTML = ""; const s = el("svg", {viewBox: `0 0 ${w} ${h}`, role: "img"}, box);
+  txt(s, w - 4, 11, "@margen.insights · @andres_trigosr", {"text-anchor": "end", "font-size": 10, fill: "var(--ink3)", opacity: .55});
+  return s;
+}
 
 /* barras horizontales genéricas: filas [{l, v, v2?, lo?, hi?, bold?}] */
 function hbars(id, rows, o = {}) {
@@ -372,6 +441,8 @@ function lines(id, series, o = {}) {
   const xmn = o.xmin ?? Math.min(...xs), xmx = o.xmax ?? Math.max(...xs), ymn = Math.min(0, ...ys), ymx = o.ymax ?? Math.max(...ys) * 1.08;
   const sx = v => l + (v - xmn) / (xmx - xmn) * (W - l - r), sy = v => t + (1 - (v - ymn) / (ymx - ymn)) * (H - t - b);
   const s = svgBox(id, W, H);
+  if (o.shade) { const [a0, a1, lab] = o.shade; el("rect", {x: sx(a0), y: t, width: sx(a1) - sx(a0), height: H - t - b, fill: "var(--line2)"}, s);
+    txt(s, (sx(a0) + sx(a1)) / 2, t + 26, lab, {"text-anchor": "middle", "font-size": 15, "font-style": "italic", fill: "var(--ink2)"}); }
   (o.yt || [0, ymx / 2, ymx]).forEach(v => { el("line", {x1: l, x2: W - r, y1: sy(v), y2: sy(v), stroke: "var(--line2)"}, s); txt(s, l - 6, sy(v) + 4, fmt(v, o.yd ?? 1), {"text-anchor": "end", "font-size": 11.5, fill: "var(--ink3)"}); });
   (o.xt || []).forEach(([v, lab]) => txt(s, sx(v), H - 10, lab, {"text-anchor": "middle", "font-size": 11.5, fill: "var(--ink3)"}));
   if (o.xlab) txt(s, W - r, H - 10, o.xlab, {"text-anchor": "end", "font-size": 11.5, fill: "var(--ink3)"});
@@ -440,7 +511,7 @@ function kpis() {
     [f(TOT.total[a]), `Ajuste total en ${AN[a]} (${uLab()}) [1]`],
     [f(TOT.ley[a]), "Efecto de la Ley de Rescate [1]"],
     [f(TOT.otras[a]), "Otras medidas, sin detalle en la tabla [1]"],
-    [Math.round(100 * gasto / TOT.total[a]) + "%", "Parte del ajuste que es recorte de gasto (eficiencia, personal y OPS, neto del mayor SGP); cálculo propio"],
+    [Math.round(100 * gasto / TOT.total[a]) + "%", "Del ajuste sale de recortar el gasto del Estado (eficiencia, nómina y contratos, menos el mayor SGP) [1]"],
   ].map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 }
 function drawT14() {
@@ -517,8 +588,8 @@ const FICHAS = [
   hoy: "Componente específico de $4.446 por cajetilla en 2026 ($4.924 proyectado para 2027) y $392 por gramo de picadura (exposición, p. 67).",
   pl: "$7.823 por cajetilla en 2027 y $11.200 desde 2028, más 10% ad valorem; $891 por gramo de picadura. Vapeadores y derivados: $1.000 por mililitro en 2027 y $2.000 desde 2028, más 30% ad valorem. Desde 2029 se actualiza con IPC + 4 puntos.", vig: "2027 y 2028", t14: 6},
  {id: "licores", tema: "Consumo", t: "Licores, vinos y cerveza", art: "Arts. 27, 28 y 33 a 37", pag: "240-247",
-  hoy: "Los licores pagan IVA de 5%. La cerveza paga impuesto al consumo.",
-  pl: "Licores a IVA de 19%, cedido a los departamentos para salud; impuesto al consumo de $750 por grado alcoholimétrico por botella de 750 cc más 35% ad valorem. La cerveza pasa a un impuesto a la producción de $330 por grado por 330 cc más 10% ad valorem, indexado con IPC + 4 puntos desde 2028. El recaudo adicional va a la ADRES.", vig: "Desde la vigencia de la ley", t14: 6},
+  hoy: "Licores: $512 por grado de alcohol por litro más 25% del precio; vinos y aperitivos: $346 y 20%; IVA de 5%. La cerveza paga 48% del precio al detallista (exposición, tabla 8). Los departamentos se quedan con todo lo que recaudan.",
+  pl: "Licores, vinos y aperitivos: $1.000 por grado por litro ($750 por botella de 750 cc) más 35% del precio, e IVA de 19% cedido a los departamentos para salud. Cerveza: impuesto a la producción de $1.000 por grado por litro más 10% del precio. El valor por grado sube con la inflación más 4 puntos desde 2028. Cada departamento conserva lo recaudado en 2026 más la inflación y el resto se gira a la ADRES (art. 37).", vig: "Desde la vigencia de la ley", t14: 6},
  {id: "efectiva", tema: "IVA", t: "EfectIVA: devolución del IVA", art: "Arts. 38 a 40", pag: "248-253",
   hoy: "Compensación del IVA a hogares pobres con un monto fijo por hogar (art. 21, Ley 2010 de 2019).",
   pl: "Devolución por persona del IVA efectivamente pagado: 100% para pobreza extrema, pobreza y el primer tramo de vulnerables; 50%, 40% y 30% en los tramos siguientes. Tope de 5,5 UVT por persona al mes. La DIAN calcula el IVA pagado con la factura electrónica. Ningún hogar recibe menos que la compensación actual durante la transición.", vig: "1 de enero de 2028", t14: 7},
@@ -585,51 +656,113 @@ function verFicha(id) {
   const n = $("#f-" + id); if (n) { n.classList.add("hl"); n.scrollIntoView({block: "center"}); setTimeout(() => n.classList.remove("hl"), 2200); }
 }
 
-/* ---------- Asalariados ---------- */
-let dep = 0;
-const PN = D.pn_casos;
-function calc() {
-  const L = PN.filter(r => r[0] === dep), i = +$("#rng").value, r = L[i];
-  $("#rng").max = L.length - 1;
-  $("#cSal").textContent = `${fmt(r[1], r[1] % 1 ? 1 : 0)} salarios mínimos · ${pesos(r[2])}`;
-  $("#cRh").textContent = pesos(r[3]); $("#cRp").textContent = pesos(r[4]);
-  $("#cSa").textContent = pesos(r[5]); $("#cTo").textContent = `${pesos(r[6])} (${fmt(r[7], 1)}%)`;
-  const ser = [0, 2].map(d => ({c: d ? "var(--bar2)" : "var(--bar)", w: 2.2, pts: PN.filter(x => x[0] === d && x[1] <= 60).map(x => [x[1], x[7]])}));
-  const dots = [0, 2].map(d => ({c: d ? "var(--bar2)" : "var(--bar)", dots: true, r: 3, pts: PN.filter(x => x[0] === d && x[1] <= 60).map(x => [x[1], x[7]])}));
-  lines("#chPN", [...ser, ...dots], {xmin: 0, xmax: 60, ymax: 5.5, yt: [0, 1, 2, 3, 4, 5], yd: 0, xt: [[2, "2"], [10, "10"], [20, "20"], [30, "30"], [40, "40"], [50, "50"], [60, "60"]], xlab: "salarios mínimos", mark: r[1] <= 60 ? [r[1], r[7]] : null,
-    hoverX: xv => { const near = PN.filter(x => x[0] === 0 && x[1] <= 60).reduce((a, b) => Math.abs(b[1] - xv) < Math.abs(a[1] - xv) ? b : a); const d2 = PN.find(x => x[0] === 2 && x[1] === near[1]); return `<b>${fmt(near[1], near[1] % 1 ? 1 : 0)} salarios mínimos</b><br>Sin dependientes: ${fmt(near[7], 1)}% (${pesos(near[6])})<br>Dos dependientes: ${fmt(d2[7], 1)}% (${pesos(d2[6])})`; }});
+/* ---------- Su bolsillo: liquidación de renta, salud e IVA ---------- */
+const SM = 1750905, UVT = 52374;
+const fsp = s => s < 4 ? 0 : s < 16 ? .01 : s < 17 ? .012 : s < 18 ? .014 : s < 19 ? .016 : s < 20 ? .018 : .02;
+const saludPL = s => s <= 2 ? .04 : s <= 4 ? .055 : s <= 5 ? .06 : s <= 10 ? .065 : s <= 15 ? .07 : s <= 20 ? .075 : .08;
+function tabla241(r, nueva) {
+  const T = nueva ? [[720, 0, 0], [1090, .09, 0], [1700, .19, 33], [4100, .28, 149], [8670, .33, 821], [1e12, .39, 2329]]
+    : [[1090, 0, 0], [1700, .19, 0], [4100, .28, 116], [8670, .33, 788], [18970, .35, 2296], [31000, .37, 5901], [1e12, .39, 10352]];
+  let lo = 0;
+  for (const [hi, t, f] of T) { if (r <= hi) return (r - lo) * t + f; lo = hi; }
+}
+// Asalariado con un solo empleo y doce salarios al año. Devuelve renta gravable (UVT) e impuesto (pesos al mes).
+function liq(salMes, dep, nueva) {
+  const s = salMes / SM, sal = salMes * 12 / UVT, ibcS = Math.min(s, 25), ibc = ibcS * SM * 12 / UVT;
+  const neto = sal - ibc * (.04 + fsp(ibcS) + (nueva ? saludPL(s) : .04));       // pensión, FSP y salud: ingreso no constitutivo
+  const ded = dep ? Math.min(.10 * sal, 384) : 0;                                  // dependientes, art. 387
+  const exenta = Math.min(.25 * (neto - ded), nueva ? 630 : 790);                  // 25% de los pagos laborales, art. 206
+  const r = neto - Math.min(exenta + ded, Math.min(.40 * neto, nueva ? 1180 : 1340)) - (nueva ? 0 : 72 * Math.min(dep, 4));
+  return {r, imp: tabla241(r, nueva) * UVT / 12, salud: Math.min(salMes, 25 * SM) * (saludPL(s) - .04)};
+}
+// Autoverificación: la liquidación reproduce los casos tipo publicados (pn_casos)
+D.pn_casos.forEach(c => { const a = liq(c[2], c[0], false), b = liq(c[2], c[0], true);
+  console.assert(Math.abs(a.imp - c[3]) < 2 && Math.abs(b.imp - c[4]) < 2 && Math.abs(b.salud - c[5]) < 2, "caso", c); });
+
+// IVA: % del ingreso por percentil (tendencia de 9 percentiles) y percentil del hogar según su ingreso por persona
+const IV = D.iva_ing.filter(r => r[0] >= 3);
+const suav = k => IV.map((r, i) => { const w = IV.slice(Math.max(0, i - 4), i + 5); return [r[0], w.reduce((s, x) => s + x[k], 0) / w.length]; });
+const IV_ANTES = suav(1), IV_DESP = suav(2);
+function ivaHogar(salMes, per) {
+  const pc = salMes / per, i = IV.findIndex(r => r[3] >= pc), k = i < 0 ? IV.length - 1 : i;
+  return {p: IV[k][0], pct: IV_DESP[k][1], mes: salMes * IV_DESP[k][1] / 100};
+}
+
+let dep = 0, per = 3, sal = 5 * SM;
+function calc(origen) {
+  if (origen !== "txt") $("#sal").value = Math.round(sal).toLocaleString("es-CO");
+  if (origen !== "rng") $("#rng").value = Math.min(Math.max(sal, +$("#rng").min), +$("#rng").max);
+  const a = liq(sal, dep, false), b = liq(sal, dep, true), v = ivaHogar(sal, per);
+  const tot = b.imp - a.imp + b.salud + v.mes;
+  $("#cSm").textContent = `${fmt(sal / SM, 1)} salarios mínimos · su hogar está cerca del percentil ${v.p} de ingreso por persona`;
+  $("#cRh").textContent = pesos(a.imp); $("#cRp").textContent = pesos(b.imp);
+  $("#cSa").textContent = pesos(b.salud); $("#cIv").textContent = pesos(v.mes);
+  $("#cTo").textContent = `${pesos(tot)} (${fmt(100 * tot / sal, 1)}% del salario)`;
+  $("#cMsg").textContent = b.imp < a.imp - 1
+    ? "En este salario el impuesto de renta baja un poco: la cotización a salud, que sube, se resta antes de calcular el impuesto. Sumando la salud, igual paga más."
+    : a.imp < 1 && b.imp > 1 ? "Hoy no paga renta; con el proyecto empezaría a pagar." : "";
+  const X = []; for (let x = 1; x <= 60; x += .25) X.push(x);
+  const f = (x, iva) => { const m = x * SM, p = liq(m, dep, true), h = liq(m, dep, false); return 100 * (p.imp - h.imp + p.salud + (iva ? ivaHogar(m, per).mes : 0)) / m; };
+  const s1 = X.map(x => [x, f(x, false)]), s2 = X.map(x => [x, f(x, true)]);
+  lines("#chPN", [{c: "var(--bar)", w: 2.4, pts: s1}, {c: "var(--bar2)", w: 2.4, pts: s2}], {xmin: 0, xmax: 60, ymax: Math.ceil(Math.max(...s2.map(p => p[1])) + .5), yd: 0,
+    yt: [0, 1, 2, 3, 4, 5, 6, 7].filter(y => y <= Math.ceil(Math.max(...s2.map(p => p[1])) + .5)),
+    xt: [[1, "1"], [10, "10"], [20, "20"], [30, "30"], [40, "40"], [50, "50"], [60, "60"]], xlab: "salarios mínimos", mark: sal / SM <= 60 ? [sal / SM, 0] : null,
+    hoverX: xv => { const x = Math.min(60, Math.max(1, Math.round(xv * 4) / 4)); return `<b>${fmt(x, 2)} salarios mínimos</b><br>Renta y salud: ${fmt(f(x, false), 1)}%<br>Con IVA: ${fmt(f(x, true), 1)}%`; }});
 }
 function tablasPN() {
   const T = [["0 a 720", "0%", "0%"], ["720 a 1.090", "0%", "9%"], ["1.090 a 1.700", "19%", "19% + 33 UVT"], ["1.700 a 4.100", "28% + 116 UVT", "28% + 149 UVT"], ["4.100 a 8.670", "33% + 788 UVT", "33% + 821 UVT"], ["8.670 a 18.970", "35% + 2.296 UVT", "39% + 2.329 UVT"], ["18.970 a 31.000", "37% + 5.901 UVT", "39%"], ["Más de 31.000", "39% + 10.352 UVT", "39%"]];
-  $("#tbTarifa").innerHTML = `<table><tr><th>Renta gravable (UVT)</th><th>Hoy</th><th>Proyecto</th></tr>${T.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>`;
+  $("#tbTarifa").innerHTML = `<table><tr><th>Renta gravable al año (UVT)</th><th>Hoy</th><th>Proyecto</th></tr>${T.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>`;
   const S = [["Hasta 2", "4,0%", "4,0%", "12,5%", "12,5%"], ["Más de 2 y hasta 4", "4,0%", "5,5%", "12,5%", "13,0%"], ["Más de 4 y hasta 5", "4,0%", "6,0%", "12,5%", "13,5%"], ["Más de 5 y hasta 10", "4,0%", "6,5%", "12,5%", "14,0%"], ["Más de 10 y hasta 15", "4,0%", "7,0%", "12,5%", "14,5%"], ["Más de 15 y hasta 20", "4,0%", "7,5%", "12,5%", "15,0%"], ["Más de 20 y hasta 25", "4,0%", "8,0%", "12,5%", "15,5%"]];
-  $("#tbSalud").innerHTML = `<table><tr><th>Salarios mínimos</th><th>Asalariado hoy</th><th>Proyecto</th><th>Independiente hoy</th><th>Proyecto</th></tr>${S.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</table>`;
-  $("#tbEdu").innerHTML = `<table><tr><th>Grupo</th><th>Personas</th><th>Salario promedio</th><th>Pagan renta hoy</th><th>Con el proyecto</th><th>Pago adicional al mes</th><th>% del ingreso</th></tr>${D.edu.map(r => `<tr><td>${r[0]}</td><td>${r[1].toLocaleString("es-CO")}</td><td>${pesos(r[2])}</td><td>${fmt(r[3], 1)}%</td><td>${fmt(r[4], 1)}%</td><td>${pesos(r[5])}</td><td>${fmt(r[6], 2)}%</td></tr>`).join("")}</table>`;
+  $("#tbSalud").innerHTML = `<table><tr><th>Salarios mínimos</th><th>Empleado hoy</th><th>Proyecto</th><th>Independiente hoy</th><th>Proyecto</th></tr>${S.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</table>`;
+  $("#tbEdu").innerHTML = `<table><tr><th>Grupo</th><th>Salario promedio al mes</th><th>Más renta al mes</th><th>Más salud al mes</th><th>Total al mes</th><th>% del salario</th></tr>${D.edu.map(r => `<tr><td>${r[0]}</td><td>${pesos(r[2])}</td><td>${pesos(r[7])}</td><td>${pesos(r[8])}</td><td>${pesos(r[5])}</td><td>${fmt(r[6], 1)}%</td></tr>`).join("")}</table>`;
+  $("#tbRama").innerHTML = `<table><tr><th>Cargo</th><th>Ingreso al mes</th><th>Renta hoy</th><th>Con el proyecto</th></tr>${D.rama.map(r => `<tr><td>${r[1]}</td><td>${pesos(r[2])}</td><td>${r[3] ? pesos(r[3] / 12) : "No paga"}</td><td>${pesos(r[4] / 12)}</td></tr>`).join("")}</table>`;
 }
 
 /* ---------- IVA ---------- */
-let ivaV = "p";
 function drawIva() {
-  if (ivaV === "p") {
-    const P = D.iva_percentil;
-    lines("#chIva", [{c: "var(--bar3)", dots: true, r: 2.2, pts: P.map(r => [r[0], r[1]])}, {c: "var(--bar)", dots: true, r: 2.2, pts: P.map(r => [r[0], r[2]])}], {xmin: 1, xmax: 100, ymax: 3.2, yt: [0, 1, 2, 3], yd: 0, xt: [[10, "10"], [30, "30"], [50, "50"], [70, "70"]], xlab: "percentil",
-      hoverX: xv => { const r = P[Math.min(99, Math.max(0, Math.round(xv) - 1))]; return `<b>Percentil ${r[0]}</b><br>Antes de EfectIVA: ${fmt(r[1])}%<br>Después: ${fmt(r[2])}%`; }});
-  } else {
-    const rows = Object.entries(D.iva_decil_chk).map(([k, v]) => ({l: "Decil " + k, v: v[1], v2: v[0]}));
-    hbars("#chIva", rows, {lw: 70, rh: 30, lab: r => `${fmt(r.v2)} → ${fmt(r.v)}`, rm: 90, tip: r => `<b>${r.l}</b><br>Antes de EfectIVA: ${fmt(r.v2)}% del gasto amplio<br>Después: ${fmt(r.v)}%`});
-  }
+  const desp = IV.filter(r => r[2] != null), ant = IV.filter(r => r[1] != null);
+  lines("#chIva", [{c: "var(--bar3)", dots: true, r: 2.2, pts: ant.map(r => [r[0], r[1]])}, {c: "var(--bar)", dots: true, r: 2.2, op: .55, pts: desp.map(r => [r[0], r[2]])},
+    {c: "var(--bar3)", w: 3, pts: IV_ANTES}, {c: "var(--bar)", w: 3, pts: IV_DESP}],
+    {w: 900, h: 330, xmin: 2, xmax: 100, ymax: 12.5, yt: [0, 2.5, 5, 7.5, 10, 12.5], yd: 1, shade: [60.5, 100, "Aquí ya no hay devolución"],
+     xt: [[10, "10"], [20, "20"], [30, "30"], [40, "40"], [50, "50"], [60, "60"], [70, "70"], [80, "80"], [90, "90"], [100, "100"]], xlab: "",
+     hoverX: xv => { const r = IV.find(x => x[0] === Math.min(100, Math.max(3, Math.round(xv)))); return r ? `<b>Percentil ${r[0]}</b><br>Sin devolución: ${fmt(r[1])}% del ingreso<br>Con devolución: ${fmt(r[2])}%` : ""; }});
 }
 function drawIvaRest() {
-  const P = D.iva_puente;
-  const rows = [
-    {l: "Recaudo bruto: Hacienda", v: 1.67}, {l: "Recaudo bruto: cálculo propio", v: P[0][2]},
-    {l: "Costo de EfectIVA: Hacienda", v: -0.83}, {l: "Costo de EfectIVA: cálculo propio", v: P[1][2]},
-    {l: "Efecto neto: Hacienda (Tabla 14)", v: 1.05}, {l: "Efecto neto: cálculo propio", v: P[3][2]},
-  ].map((r, i) => Object.assign(r, {c: i % 2 ? "var(--bar2)" : "var(--bar)"}));
-  hbars("#chPuente", rows, {w: 820, lw: 250, rh: 28, tip: r => `<b>${r.l}</b><br>${fmt(r.v)}% del PIB`});
-  hbars("#chCat", D.iva_categorias.map(r => ({l: r[0].replace(" (vía precios)", ""), v: r[2], lo: Math.min(r[1], r[3]), hi: Math.max(r[1], r[3])})), {lw: 190, rh: 28, tip: r => `<b>${r.l}</b><br>Central: ${fmt(r.v)} billones<br>Rango: ${fmt(r.lo)} a ${fmt(r.hi)}`});
+  const P = D.iva_puente, med = IV.filter(r => r[0] >= 60 && r[0] <= 90), m = med.reduce((s, r) => s + r[2], 0) / med.length;
+  $("#kpisIva").innerHTML = [
+    [fmt(P[0][1], 1) + " billones", "IVA adicional que pagarían los hogares cada año, en pesos de 2027 [4]"],
+    [fmt(-P[1][1], 1) + " billones", "Devolvería EfectIVA, porque solo cuenta el IVA con factura electrónica [4]"],
+    [fmt(m, 1) + "%", "De su ingreso pagaría de más, en promedio, un hogar entre los percentiles 60 y 90 [4]"],
+    [fmt(IV[IV.length - 1][2], 1) + "%", "De su ingreso pagaría de más el 1% de hogares más ricos [4]"],
+  ].map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  hbars("#chCat", D.iva_categorias.map(r => ({l: r[0].replace("Concentrados e insumos agro (vía precios)", "Insumos agro"), v: r[2], lo: Math.min(r[1], r[3]), hi: Math.max(r[1], r[3])})), {lw: 190, rh: 28, tip: r => `<b>${r.l}</b><br>${fmt(r.v)} billones al año<br>Rango: ${fmt(r.lo)} a ${fmt(r.hi)}`});
   hbars("#chCan", D.iva_canasta.map(r => ({l: "Decil " + r[0], v: r[2], v2: r[1], c2: "var(--bar2)"})), {lw: 70, rh: 30, d: 1, lab: r => `${fmt(r.v2, 1)} · ${fmt(r.v, 1)}`, rm: 80, tip: r => `<b>${r.l}</b><br>Comida: ${fmt(r.v2, 1)}%<br>Gasto al que le sube la tarifa: ${fmt(r.v, 1)}%`});
-  hbars("#chFac", D.iva_nunez.map(r => ({l: "Decil " + r[0], v: r[4], v2: r[3], c: "var(--bar2)", c2: "var(--bar)"})), {lw: 70, rh: 30, d: 1, lab: r => `${fmt(r.v2, 1)} · ${fmt(r.v, 1)}`, rm: 80, tip: r => `<b>${r.l}</b><br>Réplica propia: ${fmt(r.v2, 1)}%<br>Núñez (2026): ${fmt(r.v, 1)}%`});
+  hbars("#chFac", D.iva_nunez.map(r => ({l: "Decil " + r[0], v: r[3]})), {w: 900, lw: 80, rh: 26, d: 0, lab: r => fmt(r.v, 0) + " de cada 100", rm: 130, tip: r => `<b>${r.l}</b><br>${fmt(r.v, 1)}% del IVA queda en factura`});
+}
+
+/* ---------- Licores y regiones ---------- */
+let licV = 1;
+function drawLic() {
+  const Tr = D.lic_tray, E = D.lic_esc;
+  $("#kpisLic").innerHTML = [
+    [`${fmt(E[2][1], 1)} → ${fmt(E[2][2], 1)}`, "Billones que recaudarían licores y cerveza: 2025 frente a 2027, con la estimación de Hacienda [1][14]"],
+    [fmt(Tr[1][2], 1) + " billones", "Se girarían a la ADRES en 2027 [14]"],
+    [fmt(Tr[1][3], 1) + "%", `Del recaudo se quedaría en los departamentos en 2027; ${fmt(Tr[4][3], 1)}% en 2030 [14]`],
+    ["41,4%", "De los ingresos de libre destinación de los departamentos venían de licores y cerveza en 2025 [14]"],
+  ].map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  const W = 520, H = 230, s = svgBox("#chLic", W, H), mx = 20, sy = x => 14 + (1 - x / mx) * (H - 46), bw = 62;
+  Tr.forEach((r, i) => { const xx = 40 + i * 96, g = el("g", {class: "hit"}, s), tot = r[1] + r[2];
+    el("rect", {x: xx, y: sy(r[1]), width: bw, height: sy(0) - sy(r[1]), fill: "var(--bar)"}, g);
+    if (r[2] > 0) el("rect", {x: xx, y: sy(tot), width: bw, height: sy(r[1]) - sy(tot), fill: "var(--bar2)"}, g);
+    txt(g, xx + bw / 2, sy(tot) - 6, fmt(tot, 1), {"text-anchor": "middle", "font-size": 13, "font-weight": 700});
+    txt(g, xx + bw / 2, H - 8, r[0], {"text-anchor": "middle", "font-size": 12, fill: "var(--ink3)"});
+    hover(g, () => `<b>${r[0]}</b><br>Se queda en los departamentos: ${fmt(r[1])} billones<br>Se gira a la ADRES: ${fmt(r[2])} billones<br>Parte que se queda: ${fmt(r[3], 1)}%`); });
+  el("line", {x1: 24, x2: W - 10, y1: sy(0), y2: sy(0), stroke: "#9a9a9a"}, s);
+}
+function drawDep() {
+  const L = D.lic_deptos.slice().sort((a, b) => b[licV] - a[licV]);
+  hbars("#chDep", L.map(r => ({l: r[0], v: r[licV], r})), {w: 900, lw: 160, rh: 21, fs: 12.5, d: 1, lab: r => fmt(r.v, 1) + "%",
+    tip: r => `<b>${r.r[0]}</b><br>Licores y cerveza: ${fmt(r.r[1], 1)}% de sus ingresos de libre destinación<br>Giro a la ADRES: ${fmt(r.r[2], 1)}% de esos ingresos`});
 }
 
 /* ---------- Empresas ---------- */
@@ -637,12 +770,12 @@ let secV = "reb";
 function drawPJ() {
   const G = D.pj_grupos, T = D.pj_totales;
   $("#kpisPJ").innerHTML = [
-    [fmt(T[0][2]) + " billones", "Costo de la rebaja de 4 puntos con la base del año gravable 2024 (" + fmt(T[0][3]) + "% del PIB de ese año); cálculo propio [5]"],
-    [fmt(G[4][6] + G[3][6], 1) + "%", "De la rebaja va al 1% de las empresas con más ingresos [5]"],
-    ["$" + fmt(G[4][5], 0) + " millones", "Rebaja anual promedio de cada una de las " + G[4][1] + " empresas más grandes [5]"],
-    ["−0,42%", "Costo de la rebaja en la Tabla 14 desde 2028, en % del PIB [1]"],
+    [fmt(T[0][2]) + " billones", "Costaría la rebaja de renta con las declaraciones de 2024 [5]"],
+    [fmt(G[4][6] + G[3][6], 1) + "%", "De la rebaja iría al 1% de las empresas con más ingresos [5]"],
+    ["$" + fmt(G[4][5], 0) + " millones", "Rebaja al año, en promedio, para cada una de las " + G[4][1] + " empresas más grandes [5]"],
+    [pesos(G[0][5] * 1e6), "Rebaja al año, en promedio, para cada empresa de la mitad más pequeña [5]"],
   ].map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
-  const nom = ["Mitad inferior", "Cuantiles 501-900", "Cuantiles 901-990", "Cuantiles 991-999", "Cuantil 1000"];
+  const nom = ["Mitad más pequeña", "Siguiente 40%", "Siguiente 9%", "Siguiente 0,9%", "0,1% más grande"];
   hbars("#chPJ", G.map((r, i) => ({l: nom[i], v: r[6], v2: r[2]})), {lw: 130, rh: 34, d: 1, lab: r => `${fmt(r.v2, 1)}% · ${fmt(r.v, 1)}%`, rm: 100, tip: r => `<b>${r.l}</b><br>Empresas: ${fmt(r.v2, 1)}%<br>Rebaja: ${fmt(r.v, 1)}%`});
   $("#tbPJ").innerHTML = `<table><tr><th>Grupo</th><th>Empresas</th><th>Rebaja (billones)</th><th>Por empresa al año</th></tr>${G.map((r, i) => `<tr><td>${nom[i]}</td><td>${r[1].toLocaleString("es-CO")}</td><td>${fmt(r[4])}</td><td>${pesos(r[5] * 1e6)}</td></tr>`).join("")}</table>`;
 }
@@ -652,22 +785,26 @@ function drawSec() {
 }
 function drawApo() {
   const R = D.salud_rango;
-  hbars("#chApo", R.map(r => ({l: r[0], v: r[2], v2: r[3], c: "var(--bar2)", c2: "var(--bar)", r})), {lw: 70, rh: 32, lab: r => `${fmt(r.v2)} · ${fmt(r.v)}`, rm: 90, tip: r => `<b>${r.r[0]} salarios mínimos</b><br>Asalariados: ${r.r[1].toLocaleString("es-CO")}<br>Empleadores: ${fmt(r.r[3])} billones al año (${pesos(r.r[5])} por trabajador afectado al año)<br>Asalariados: ${fmt(r.r[2])} billones al año`});
+  hbars("#chApo", R.map(r => ({l: r[0], v: r[2], v2: r[3], c: "var(--bar2)", c2: "var(--bar)", r})), {lw: 70, rh: 32, lab: r => `${fmt(r.v2)} · ${fmt(r.v)}`, rm: 90, tip: r => `<b>${r.r[0]} salarios mínimos</b><br>Asalariados: ${r.r[1].toLocaleString("es-CO")}<br>Empresas: ${fmt(r.r[3])} billones al año<br>Trabajadores: ${fmt(r.r[2])} billones al año`});
   hbars("#chTam", D.salud_tamano.map(r => ({l: r[0] + " trabajadores", v: r[3], r})), {lw: 140, rh: 30, lab: r => fmt(r.v) + "%", tip: r => `<b>Empresas de ${r.r[0]} trabajadores</b><br>Asalariados: ${r.r[1].toLocaleString("es-CO")}<br>Ganan más de 2 salarios mínimos: ${fmt(r.r[2], 1)}%<br>Aumento del costo de aportes: ${fmt(r.r[3])}%`});
-  $("#tbSalComp").innerHTML = `<table><tr><th>% del PIB</th><th>Cálculo propio</th><th>MHCP 2027</th><th>MHCP 2028</th></tr>${D.salud_comp.map(r => `<tr><td>${r[0]}</td><td>${fmt(r[2])}</td><td>${fmt(r[3])}</td><td>${fmt(r[4])}</td></tr>`).join("")}</table>`;
 }
 
 /* ---------- arranque ---------- */
 seg("#segAnio", AN.map((x, i) => [i, x]), st.a, v => { st.a = v; todoT14(); });
 seg("#segUni", [["pib", "% del PIB"], ["bn", "Billones"]], st.u, v => { st.u = v; todoT14(); });
-seg("#segGrp", [["pilar", "Pilar del MHCP"], ["nat", "Naturaleza"]], st.g, v => { st.g = v; drawT14(); });
+seg("#segGrp", [["pilar", "Pilar del MHCP"], ["nat", "Tipo de medida"]], st.g, v => { st.g = v; drawT14(); });
 todoT14();
 seg("#temas", TEMAS.map(t => [t, t]), tema, v => { tema = v; drawFichas(); });
 $("#q").addEventListener("input", drawFichas); drawFichas();
-seg("#segDep", [[0, "Ninguno"], [2, "Dos"]], dep, v => { dep = v; calc(); });
-$("#rng").addEventListener("input", calc); calc(); tablasPN();
-seg("#segIvaV", [["p", "Percentiles"], ["d", "Deciles"]], ivaV, v => { ivaV = v; drawIva(); });
+seg("#segDep", [0, 1, 2, 3, 4].map(n => [n, n === 0 ? "Ninguno" : String(n)]), dep, v => { dep = v; calc(); });
+seg("#segPer", [1, 2, 3, 4, 5, 6].map(n => [n, String(n)]), per, v => { per = v; calc(); });
+$("#rng").addEventListener("input", () => { sal = +$("#rng").value; calc("rng"); });
+$("#sal").addEventListener("input", () => { const n = +$("#sal").value.replace(/\D/g, ""); if (n >= 100000) { sal = n; calc("txt"); } });
+$("#sal").addEventListener("blur", () => calc());
+calc(); tablasPN();
 drawIva(); drawIvaRest();
+seg("#segLic", [[1, "Peso en sus ingresos"], [2, "Giro a la ADRES frente a sus ingresos"]], licV, v => { licV = v; drawDep(); });
+drawLic(); drawDep();
 seg("#segSec", [["reb", "% de la rebaja"], ["nom", "% de la nómina"]], secV, v => { secV = v; drawSec(); });
 drawPJ(); drawSec(); drawApo();
 if (document.getElementById(location.hash.slice(1))?.classList.contains("tab")) irA(location.hash.slice(1));

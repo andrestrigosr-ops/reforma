@@ -752,11 +752,12 @@ function drawIva() {
 }
 function drawIvaRest() {
   const P = D.iva_puente, med = IV.filter(r => r[0] >= 60 && r[0] <= 90), m = med.reduce((s, r) => s + r[2], 0) / med.length;
+  const ivaT = T14.find(r => r[1] === "IVA y EfectIVA");   // cifras generales de Hacienda
   $("#kpisIva").innerHTML = [
-    [fmt(P[0][1], 1) + " billones", "IVA adicional que pagarían los hogares cada año, en pesos de 2027 [4]"],
-    [fmt(-P[1][1], 1) + " billones", "Devolvería EfectIVA, porque solo cuenta el IVA con factura electrónica [4]"],
-    [fmt(m, 1) + "%", "De su ingreso pagaría de más, en promedio, un hogar entre los percentiles 60 y 90 [4]"],
-    [fmt(IV[IV.length - 1][2], 1) + "%", "De su ingreso pagaría de más el 1% de hogares más ricos [4]"],
+    [fmt(ivaT[4][1], 2) + "% del PIB", "Recaudo neto de IVA y EfectIVA en 2028 según Hacienda, unos " + fmt(ivaT[4][1] / 100 * PIB[AN[1]], 1) + " billones (Tabla 14) [1]"],
+    ["Deciles 1 a 6", "Hogares a los que EfectIVA les devolvería el IVA (p. 92 del PDF) [1]"],
+    ["Enero de 2028", "Empieza la nueva base del IVA; la devolución se anticipa en diciembre de 2027 (p. 92 y 93 del PDF) [1]"],
+    ["−0,016", "Baja del coeficiente de Gini que estima Hacienda con el proyecto, sobre todo por EfectIVA (p. 198 del PDF) [1]"],
   ].map(([v, l]) => `<div class="kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
   hbars("#chCat", D.iva_categorias.map(r => ({l: r[0].replace("Concentrados e insumos agro (vía precios)", "Insumos agro"), v: r[2], lo: Math.min(r[1], r[3]), hi: Math.max(r[1], r[3])})), {lw: 190, rh: 28, tip: r => `<b>${r.l}</b><br>${fmt(r.v)} billones al año<br>Rango: ${fmt(r.lo)} a ${fmt(r.hi)}`});
   hbars("#chCan", D.iva_canasta.map(r => ({l: "Decil " + r[0], v: r[2], v2: r[1], c2: "var(--bar2)"})), {lw: 70, rh: 30, d: 1, lab: r => `${fmt(r.v2, 1)} · ${fmt(r.v, 1)}`, rm: 80, tip: r => `<b>${r.l}</b><br>Comida: ${fmt(r.v2, 1)}%<br>Gasto al que le sube la tarifa: ${fmt(r.v, 1)}%`});

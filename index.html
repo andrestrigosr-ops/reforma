@@ -245,7 +245,7 @@ table.ap th.gc{text-align:center;background:var(--line2)}table.ap .g0{border-lef
   </div>
   <div class="row c2">
     <div class="card"><h3>La tabla del impuesto de renta (art. 241)</h3><div class="tw" id="tbTarifa"></div>
-      <p class="note">UVT: unidad que fija la DIAN cada año; en 2026 vale $52.374. Fuente: Estatuto Tributario y art. 48 del proyecto [1][3].</p></div>
+      <p class="note">El porcentaje se aplica a la renta que pasa del límite inferior del tramo; con el proyecto, el último tramo empieza en 8.670 UVT. UVT: unidad que fija la DIAN cada año; en 2026 vale $52.374. Fuente: Estatuto Tributario y art. 48 del proyecto [1][3].</p></div>
     <div class="card"><h3>Cotización a salud que paga el trabajador (art. 21)</h3><div class="tw" id="tbSalud"></div>
       <p class="note">La parte del empleador sigue en 8,5%. Fuente: art. 21 del proyecto [1].</p></div>
   </div>
@@ -455,7 +455,7 @@ function hbars(id, rows, o = {}) {
 
 /* líneas: series [{n, c, pts:[[x,y]], w}] */
 function lines(id, series, o = {}) {
-  const W = o.w || 560, H = o.h || 260, l = 44, r = 14, t = 10, b = 30;
+  const W = o.w || 560, H = o.h || 260, l = 44, r = 14, t = 10, b = o.xlab ? 46 : 30;
   const xs = series.flatMap(s => s.pts.map(p => p[0])), ys = series.flatMap(s => s.pts.map(p => p[1]));
   const xmn = o.xmin ?? Math.min(...xs), xmx = o.xmax ?? Math.max(...xs), ymn = Math.min(0, ...ys), ymx = o.ymax ?? Math.max(...ys) * 1.08;
   const sx = v => l + (v - xmn) / (xmx - xmn) * (W - l - r), sy = v => t + (1 - (v - ymn) / (ymx - ymn)) * (H - t - b);
@@ -463,8 +463,8 @@ function lines(id, series, o = {}) {
   if (o.shade) { const [a0, a1, lab] = o.shade; el("rect", {x: sx(a0), y: t, width: sx(a1) - sx(a0), height: H - t - b, fill: "var(--line2)"}, s);
     txt(s, (sx(a0) + sx(a1)) / 2, t + 26, lab, {"text-anchor": "middle", "font-size": 15, "font-style": "italic", fill: "var(--ink2)"}); }
   (o.yt || [0, ymx / 2, ymx]).forEach(v => { el("line", {x1: l, x2: W - r, y1: sy(v), y2: sy(v), stroke: "var(--line2)"}, s); txt(s, l - 6, sy(v) + 4, fmt(v, o.yd ?? 1), {"text-anchor": "end", "font-size": 11.5, fill: "var(--ink3)"}); });
-  (o.xt || []).forEach(([v, lab]) => txt(s, sx(v), H - 10, lab, {"text-anchor": "middle", "font-size": 11.5, fill: "var(--ink3)"}));
-  if (o.xlab) txt(s, W - r, H - 10, o.xlab, {"text-anchor": "end", "font-size": 11.5, fill: "var(--ink3)"});
+  (o.xt || []).forEach(([v, lab]) => txt(s, sx(v), H - b + 18, lab, {"text-anchor": "middle", "font-size": 11.5, fill: "var(--ink3)"}));
+  if (o.xlab) txt(s, (l + W - r) / 2, H - 4, o.xlab, {"text-anchor": "middle", "font-size": 11.5, fill: "var(--ink3)"});
   series.forEach(se => {
     if (se.dots) se.pts.forEach(p => el("circle", {cx: sx(p[0]), cy: sy(p[1]), r: se.r || 2, fill: se.c, opacity: se.op || 1}, s));
     else el("path", {d: se.pts.map((p, i) => (i ? "L" : "M") + sx(p[0]).toFixed(1) + "," + sy(p[1]).toFixed(1)).join(""), fill: "none", stroke: se.c, "stroke-width": se.w || 2}, s);
@@ -737,7 +737,7 @@ function calc(origen) {
     hoverX: xv => { const x = Math.min(60, Math.max(1, Math.round(xv * 4) / 4)); return `<b>${fmt(x, 2)} salarios mínimos</b><br>Renta y salud: ${fmt(f(x, false), 1)}%<br>Con IVA: ${fmt(f(x, true), 1)}%`; }});
 }
 function tablasPN() {
-  const T = [["0 a 720", "0%", "0%"], ["720 a 1.090", "0%", "9%"], ["1.090 a 1.700", "19%", "19% + 33 UVT"], ["1.700 a 4.100", "28% + 116 UVT", "28% + 149 UVT"], ["4.100 a 8.670", "33% + 788 UVT", "33% + 821 UVT"], ["8.670 a 18.970", "35% + 2.296 UVT", "39% + 2.329 UVT"], ["18.970 a 31.000", "37% + 5.901 UVT", "39%"], ["Más de 31.000", "39% + 10.352 UVT", "39%"]];
+  const T = [["0 a 720", "0%", "0%"], ["720 a 1.090", "0%", "9%"], ["1.090 a 1.700", "19%", "19% + 33 UVT"], ["1.700 a 4.100", "28% + 116 UVT", "28% + 149 UVT"], ["4.100 a 8.670", "33% + 788 UVT", "33% + 821 UVT"], ["8.670 a 18.970", "35% + 2.296 UVT", "39% + 2.329 UVT"], ["18.970 a 31.000", "37% + 5.901 UVT", "Igual que el tramo anterior"], ["Más de 31.000", "39% + 10.352 UVT", "Igual que el tramo anterior"]];
   $("#tbTarifa").innerHTML = `<table><tr><th>Renta gravable al año (UVT)</th><th>Hoy</th><th>Proyecto</th></tr>${T.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table>`;
   const S = [["Hasta 2", "4,0%", "4,0%", "12,5%", "12,5%"], ["Más de 2 y hasta 4", "4,0%", "5,5%", "12,5%", "13,0%"], ["Más de 4 y hasta 5", "4,0%", "6,0%", "12,5%", "13,5%"], ["Más de 5 y hasta 10", "4,0%", "6,5%", "12,5%", "14,0%"], ["Más de 10 y hasta 15", "4,0%", "7,0%", "12,5%", "14,5%"], ["Más de 15 y hasta 20", "4,0%", "7,5%", "12,5%", "15,0%"], ["Más de 20 y hasta 25", "4,0%", "8,0%", "12,5%", "15,5%"]];
   $("#tbSalud").innerHTML = `<table><tr><th>Salarios mínimos</th><th>Empleado hoy</th><th>Proyecto</th><th>Independiente hoy</th><th>Proyecto</th></tr>${S.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</table>`;
